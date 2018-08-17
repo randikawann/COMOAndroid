@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "111066148401",
+    "firebase_url": "https://cocoapp2-4a7f4.firebaseio.com",
+    "project_id": "cocoapp2-4a7f4",
+    "storage_bucket": "cocoapp2-4a7f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111066148401:android:dc79fe5422c4438a",
+        "android_client_info": {
+          "package_name": "com.example.randikawann.cocoapp2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111066148401-54r2hstfrhr1a27m44r0pibf77tahap4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.randikawann.cocoapp2",
+            "certificate_hash": "a0899cd5764f054814b25530696d176c897d1c70"
+          }
+        },
+        {
+          "client_id": "111066148401-pkbiapo9iae23e57tc2p6tgg98t2kg3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdyAjiXbfyMXpajNgmhC1fhKQmsSTwLE8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111066148401-pkbiapo9iae23e57tc2p6tgg98t2kg3o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
