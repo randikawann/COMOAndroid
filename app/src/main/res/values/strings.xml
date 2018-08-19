@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CocoApp2</string>
+
+    <array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+
+    </array>
+
 </resources>
