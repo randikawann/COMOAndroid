@@ -7,19 +7,20 @@
     tools:context=".EditProfileActivity"
     >
     <include layout="@layout/app_bar_layout"
-        android:id="@+id/main_app_bar"></include>
+        android:id="@+id/edit_activity_toolbar"></include>
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/imgProfile"
         android:layout_width="124dp"
         android:layout_height="122dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
+        android:contentDescription="@string/todo"
         app:srcCompat="@drawable/defaultuser" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etUserName"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -27,14 +28,14 @@
         android:layout_marginTop="198dp"
         android:background="#E3E3E3"
         android:ems="10"
-        android:hint="UserName"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:paddingStart="30dp"
         android:textColor="#000000"
         android:textColorHint="#000000" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/etAge"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -42,7 +43,7 @@
         android:layout_marginTop="260dp"
         android:background="#E3E3E3"
         android:ems="10"
-        android:hint="Age"
+        android:hint="@string/age"
         android:inputType="textPersonName"
         android:paddingStart="30dp"
         android:textColor="#000000"
@@ -50,7 +51,7 @@
 
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerGender"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -61,7 +62,7 @@
         android:paddingStart="25dp" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/etStatus"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -69,33 +70,22 @@
         android:layout_marginTop="384dp"
         android:background="#E3E3E3"
         android:ems="10"
-        android:hint="Status"
+        android:hint="@string/status"
         android:inputType="textPersonName"
         android:paddingStart="30dp"
         android:textColor="#000000"
         android:textColorHint="#000000" />
 
     <Button
+        android:id="@+id/btSubmit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="446dp"
+        android:layout_marginTop="480dp"
+
         android:background="#E3E3E3"
-
-        />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="508dp"
-        android:background="#E3E3E3"
-
-        />
-
-
+        android:text="Submit" />
 
 
 </RelativeLayout>

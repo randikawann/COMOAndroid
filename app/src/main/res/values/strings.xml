@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">CocoApp2</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="send_code">Send Code</string>
+    <string name="member_login">Member LogIn</string>
+    <string name="todo">TODO</string>
+    <string name="username">UserName</string>
+    <string name="age">Age</string>
+    <string name="status">Status</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit Profile</string>
 
     <array name="gender">
         <item>Male</item>
