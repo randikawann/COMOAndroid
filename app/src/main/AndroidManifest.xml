@@ -15,9 +15,6 @@
         <activity android:name=".MainActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".NearbyActivity"/>
-        <activity android:name=".EditProfileActivity">
-
-        </activity>
 
         <activity android:name=".FlashActivity">
             <intent-filter>

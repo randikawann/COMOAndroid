@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
 //                          //this is must be change as phone number.
 
-                            Intent mainIntent = new Intent(LoginActivity.this,EditProfileActivity.class);
+                            Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(mainIntent);
 
                             finish();
