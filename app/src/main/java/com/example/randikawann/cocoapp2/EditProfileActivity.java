@@ -28,8 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -39,7 +42,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etStatus;
     private Spinner spinnerGender;
     private Button btSubmit;
-//    private ImageView imgProfile;
 
     private DatabaseReference userReference;
     private DatabaseReference getUserReference;
@@ -50,9 +52,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private String userAge;
     private String userGender;
     private String userStatus;
+    private String userimage;
+    private String downloadUrl;
     private final static int Gallery_pick = 1;
 
-    private de.hdodenhof.circleimageview.CircleImageView imgProfile;
+    private CircleImageView imgProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etStatus = (EditText) findViewById(R.id.etStatus);
         spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
         btSubmit = (Button) findViewById(R.id.btSubmit);
-        imgProfile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.imgProfile);
+        imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
 //        imgProfile = (ImageView) findViewById(R.id.imgProfile);
 
         //Add database Reference to user
@@ -89,15 +93,24 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    userName = dataSnapshot.child("user_name").getValue().toString();
-                    userAge = dataSnapshot.child("user_age").getValue().toString();
-                    userGender = dataSnapshot.child("user_gender").getValue().toString();
-                    userStatus = dataSnapshot.child("user_status").getValue().toString();
+                    try{
+                        userName = dataSnapshot.child("user_name").getValue().toString();
+                        userAge = dataSnapshot.child("user_age").getValue().toString();
+                        userGender = dataSnapshot.child("user_gender").getValue().toString();
+                        userStatus = dataSnapshot.child("user_status").getValue().toString();
+                        userimage = dataSnapshot.child("user_img").getValue().toString();
+//                    String thumb_image = dataSnapshot.child("user_thumbImg").getValue().toString();
 
+                    }catch (Exception e){
+                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
+                    }
                     etUserName.setText(userName);
                     etAge.setText(userAge);
                     etStatus.setText(userStatus);
                     spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
+
+                    //retreve image with picasso
+                    Picasso.get().load(userimage).into(imgProfile);
 
                 }
             }
@@ -135,22 +148,24 @@ public class EditProfileActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
+
                 String user_id = mAuth.getCurrentUser().getUid();
                 //save image in firebase storage
                 StorageReference filePath = storeProfileImageStorageRef.child(user_id+".jpg");
+
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
                         if(task.isSuccessful()){
                             Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
-                            String downoadUrl = task.getResult().getUploadSessionUri().toString();
-                            userReference.child("user_img").setValue(downoadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(EditProfileActivity.this,"success set value to database",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
+                            downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
+//                            userReference.child("user_img").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    Toast.makeText(EditProfileActivity.this,"image uploaded succesfully",Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
 
                         }else
                             Toast.makeText(EditProfileActivity.this,"Error Occur uploading",Toast.LENGTH_SHORT).show();
@@ -162,6 +177,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+
     public void addUser(){
         userName = etUserName.getText().toString().trim();
         userAge = etAge.getText().toString();
@@ -172,7 +188,7 @@ public class EditProfileActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(userStatus)){
                 userReference.child("user_name").setValue(userName);
                 userReference.child("user_age").setValue(userAge);
-                userReference.child("user_img").setValue("default_image");
+                userReference.child("user_img").setValue(downloadUrl);
                 userReference.child("user_thumbImg").setValue("user_thumbImg");
                 userReference.child("user_status").setValue(userStatus);
                 userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
