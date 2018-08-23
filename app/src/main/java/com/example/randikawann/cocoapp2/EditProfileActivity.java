@@ -146,7 +146,6 @@ public class EditProfileActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Uri downloadUrl = uri;
-//                                    downloadUrl2[0] =downloadUrl.toString();
                                     Toast.makeText(getBaseContext(), "Upload success! URL - " + downloadUrl.toString() , Toast.LENGTH_SHORT).show();
                                     getUserReference.child("user_img").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
