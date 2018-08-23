@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".EditProfileActivity"
     >
-    <include layout="@layout/app_bar_layout"
+    <include layout="@layout/app_bar_layouts"
         android:id="@+id/edit_activity_toolbar"></include>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imgProfile"
         android:layout_width="124dp"
         android:layout_height="122dp"
@@ -17,7 +18,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:contentDescription="@string/todo"
-        app:srcCompat="@drawable/defaultuser" />
+        android:src="@drawable/defaultuser"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
 
     <EditText
         android:id="@+id/etUserName"
