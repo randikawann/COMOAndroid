@@ -136,25 +136,21 @@ public class EditProfileActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 String user_id = mAuth.getCurrentUser().getUid();
+                //save image in firebase storage
                 StorageReference filePath = storeProfileImageStorageRef.child(user_id+".jpg");
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
-                            storeProfileImageStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            String downoadUrl = task.getResult().getUploadSessionUri().toString();
+                            userReference.child("user_img").setValue(downoadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
-                                    Uri downloadUrl = uri;
-                                    Toast.makeText(getBaseContext(), "Upload success! URL - " + downloadUrl.toString() , Toast.LENGTH_SHORT).show();
-                                    getUserReference.child("user_img").setValue(downloadUrl.toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            Toast.makeText(EditProfileActivity.this,"Image Uploaded successfully",Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(EditProfileActivity.this,"success set value to database",Toast.LENGTH_SHORT).show();
                                 }
                             });
+
 
                         }else
                             Toast.makeText(EditProfileActivity.this,"Error Occur uploading",Toast.LENGTH_SHORT).show();
