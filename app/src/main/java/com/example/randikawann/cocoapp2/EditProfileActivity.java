@@ -142,10 +142,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
-//                            String downloadUrl = task.getResult().getDownloadUrl().toString();
-//                            String downloadUrl = storeProfileImageStorageRef.getDownloadUrl().getResult().toString();
-//                            String downloadUrl = storeProfileImageStorageRef.getDownloadUrl().toString();
-//                            final String[] downloadUrl2 = new String[1];
                             storeProfileImageStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
