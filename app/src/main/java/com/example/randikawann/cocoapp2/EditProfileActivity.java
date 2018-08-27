@@ -45,7 +45,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etStatus;
     private Spinner spinnerGender;
     private Button btSubmit;
-
     private DatabaseReference userReference;
     private DatabaseReference getUserReference;
     private FirebaseAuth mAuth;
@@ -118,9 +117,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     //retreve image with picasso
 
 //                    Picasso.get().load(userimage).into(imgProfile);
+//                    Picasso.get() .load(userimage) .resize(50, 50) .centerCrop() .into(imgProfile);
+                    Glide.with(EditProfileActivity.this).load(userimage).into(imgProfile);
 
-
-                    Picasso.get() .load(userimage) .resize(50, 50) .centerCrop() .into(imgProfile);
                 }
             }
 
@@ -169,12 +168,14 @@ public class EditProfileActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
                             downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
+
+
                             userReference.child("user_img").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     Toast.makeText(EditProfileActivity.this,"image uploaded succesfully",Toast.LENGTH_SHORT).show();
 //                                    Picasso.get() .load(userimage) .resize(50, 50) .centerCrop() .into(imgProfile);
-                                    Glide.with(EditProfileActivity.this).load(userimage).diskCacheStrategy(DiskCacheStrategy.ALL).into(imgProfile);
+                                    Glide.with(EditProfileActivity.this).load(userimage).into(imgProfile);
                                 }
                             });
 

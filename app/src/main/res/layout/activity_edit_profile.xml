@@ -88,7 +88,7 @@
         android:layout_marginTop="480dp"
 
         android:background="#E3E3E3"
-        android:text="Submit" />
+        android:text="@string/submit" />
 
 
 </RelativeLayout>
