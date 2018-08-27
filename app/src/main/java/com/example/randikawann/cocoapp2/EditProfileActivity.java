@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +31,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoProvider;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -70,19 +73,19 @@ public class EditProfileActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Edit Profile");
         //
-        etUserName = (EditText) findViewById(R.id.etUserName);
-        etAge = (EditText) findViewById(R.id.etAge);
-        etStatus = (EditText) findViewById(R.id.etStatus);
-        spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
-        btSubmit = (Button) findViewById(R.id.btSubmit);
-        imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
-//        imgProfile = (ImageView) findViewById(R.id.imgProfile);
+        etUserName = findViewById(R.id.etUserName);
+        etAge = findViewById(R.id.etAge);
+        etStatus = findViewById(R.id.etStatus);
+        spinnerGender = findViewById(R.id.spinnerGender);
+        btSubmit = findViewById(R.id.btSubmit);
+        imgProfile = findViewById(R.id.imgProfile);
 
         //Add database Reference to user
         mAuth = FirebaseAuth.getInstance();
         String current_User_Id = mAuth.getCurrentUser().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
         storeProfileImageStorageRef = FirebaseStorage.getInstance().getReference().child("profile_img");
+        Toast.makeText(EditProfileActivity.this,"call data reference",Toast.LENGTH_SHORT).show();
 
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +99,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
                     try{
+                        Toast.makeText(EditProfileActivity.this,"data retrieving...",Toast.LENGTH_SHORT).show();
                         userName = dataSnapshot.child("user_name").getValue().toString();
                         userAge = dataSnapshot.child("user_age").getValue().toString();
                         userGender = dataSnapshot.child("user_gender").getValue().toString();
@@ -112,8 +116,11 @@ public class EditProfileActivity extends AppCompatActivity {
                     spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
 
                     //retreve image with picasso
-                    Picasso.get().load(userimage).into(imgProfile);
 
+//                    Picasso.get().load(userimage).into(imgProfile);
+
+
+                    Picasso.get() .load(userimage) .resize(50, 50) .centerCrop() .into(imgProfile);
                 }
             }
 
@@ -162,12 +169,14 @@ public class EditProfileActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
                             downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
-//                            userReference.child("user_img").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    Toast.makeText(EditProfileActivity.this,"image uploaded succesfully",Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
+                            userReference.child("user_img").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(EditProfileActivity.this,"image uploaded succesfully",Toast.LENGTH_SHORT).show();
+//                                    Picasso.get() .load(userimage) .resize(50, 50) .centerCrop() .into(imgProfile);
+                                    Glide.with(EditProfileActivity.this).load(userimage).diskCacheStrategy(DiskCacheStrategy.ALL).into(imgProfile);
+                                }
+                            });
 
                         }else
                             Toast.makeText(EditProfileActivity.this,"Error Occur uploading",Toast.LENGTH_SHORT).show();
@@ -190,7 +199,7 @@ public class EditProfileActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(userStatus)){
                 userReference.child("user_name").setValue(userName);
                 userReference.child("user_age").setValue(userAge);
-                userReference.child("user_img").setValue(downloadUrl);
+//                userReference.child("user_img").setValue(downloadUrl);
                 userReference.child("user_thumbImg").setValue("user_thumbImg");
                 userReference.child("user_status").setValue(userStatus);
                 userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
