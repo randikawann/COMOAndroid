@@ -55,9 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
 
         //Toolbar
-        mToolbar = findViewById(R.id.edit_activity_toolbar);
+        mToolbar = findViewById(R.id.profile_activity_toolbar);
         setSupportActionBar(mToolbar);
-//        getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setTitle("Profile");
 
 
 

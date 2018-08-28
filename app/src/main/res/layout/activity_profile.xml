@@ -16,7 +16,7 @@
         android:layout_height="122dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/defaultuser"
         />
 
@@ -26,7 +26,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="190dp"
         android:gravity="center"
         android:text="UserName"
         android:textSize="20sp" />
@@ -37,7 +37,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="239dp"
+        android:layout_marginTop="250dp"
         android:gravity="center"
         android:text="Status"
         android:textSize="20sp" />
@@ -48,7 +48,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="306dp"
+        android:layout_marginTop="310dp"
         android:gravity="center"
         android:text="Gender"
         android:textSize="20sp" />
@@ -59,7 +59,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="373dp"
+        android:layout_marginTop="370dp"
         android:gravity="center"
         android:text="Age"
         android:textSize="20sp" />
