@@ -5,7 +5,7 @@
     <item
         android:id="@+id/profile"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_action_name"
+        android:icon="@drawable/ic_action_edit"
         android:title="Profile"
         app:showAsAction="never" />
     <item

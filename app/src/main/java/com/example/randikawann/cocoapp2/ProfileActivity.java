@@ -1,8 +1,12 @@
 package com.example.randikawann.cocoapp2;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
+    private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     private TextView tvUserName;
     private TextView tvStatus;
@@ -48,6 +53,13 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String current_User_Id = mAuth.getCurrentUser().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
+
+        //Toolbar
+        mToolbar = findViewById(R.id.edit_activity_toolbar);
+        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setTitle("Profile");
+
+
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -79,5 +91,23 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this,"Data retreving error",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_profile: {
+                Intent editProfileIntent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(editProfileIntent);
+                // do your sign-out stuff
+                break;
+            }
+
+            // case blocks for other MenuItems (if any)
+        }
+        return false;
     }
 }

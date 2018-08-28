@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.profile: {
-                Intent editProfileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(editProfileIntent);
+                Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(profileIntent);
                 // do your sign-out stuff
                 break;
             }
