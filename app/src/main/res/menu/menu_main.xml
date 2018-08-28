@@ -9,6 +9,12 @@
         android:title="Profile"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/allUsers"
+        android:orderInCategory="100"
+        android:title="All Users"
+        app:showAsAction="never" />
+
 
     <item
         android:id="@+id/logout"

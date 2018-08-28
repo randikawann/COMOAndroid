@@ -1,5 +1,6 @@
 package com.example.randikawann.cocoapp2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolBar);
         getSupportActionBar().setTitle("COMO Android");
         getSupportActionBar().setSubtitle("Real world application");
+        mainToolBar.setElevation(10f);
 
         //tab for MainActivity
         myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
@@ -55,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         myTabLayout.setupWithViewPager(myViewPager);
 
 
-        mainToolBar.setElevation(10f);
-//        mainToolBar.setNavigationIcon(R.drawable.ic_action_navigation);
         mAuth = FirebaseAuth.getInstance();
 
         // ShakeDetector initialization
@@ -105,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(profileIntent);
                 // do your sign-out stuff
+                break;
+            }
+            case R.id.allUsers:{
+                Intent allUsersIntent = new Intent(MainActivity.this, AllUsersActivity.class);
+                startActivity(allUsersIntent);
                 break;
             }
             case R.id.logout:{

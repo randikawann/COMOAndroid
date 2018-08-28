@@ -58,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.profile_activity_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
