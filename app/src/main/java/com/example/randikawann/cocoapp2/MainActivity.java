@@ -6,6 +6,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextView textView;
     private android.support.v7.widget.Toolbar mainToolBar;
+
+    private ViewPager myViewPager;
+    private TabLayout myTabLayout;
+    private TabPageAdapter myTabPageAdapter;
 
     //shaking sensor
     private SensorManager mSensorManager;
@@ -40,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolBar);
         getSupportActionBar().setTitle("COMO Android");
         getSupportActionBar().setSubtitle("Real world application");
+
+        //tab for MainActivity
+        myViewPager = (ViewPager) findViewById(R.id.main_tabs_pager);
+        myTabPageAdapter = new TabPageAdapter(getSupportFragmentManager());
+        myViewPager.setAdapter(myTabPageAdapter);
+        myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
+        myTabLayout.setupWithViewPager(myViewPager);
+
 
         mainToolBar.setElevation(10f);
 //        mainToolBar.setNavigationIcon(R.drawable.ic_action_navigation);
