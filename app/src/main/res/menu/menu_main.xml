@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/editProfile"
+        android:id="@+id/profile"
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_name"
-        android:title="@string/edit_profile"
+        android:title="Profile"
         app:showAsAction="never" />
     <item
         android:id="@+id/logout"
