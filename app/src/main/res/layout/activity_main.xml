@@ -28,12 +28,5 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="101dp"></android.support.v4.view.ViewPager>
 
-    <android.support.v7.widget.AppCompatCheckedTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="242dp"
-        android:text="Welcome to main page" />
+   
 </RelativeLayout>

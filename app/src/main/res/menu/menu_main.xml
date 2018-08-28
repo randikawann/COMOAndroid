@@ -8,6 +8,8 @@
         android:icon="@drawable/ic_action_edit"
         android:title="Profile"
         app:showAsAction="never" />
+
+
     <item
         android:id="@+id/logout"
         android:orderInCategory="100"
