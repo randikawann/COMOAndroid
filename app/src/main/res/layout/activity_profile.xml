@@ -42,9 +42,9 @@
         android:id="@+id/tvGender"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="213dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="306dp"
         android:gravity="center"
         android:text="Gender"
         android:textSize="20sp" />
@@ -53,9 +53,9 @@
         android:id="@+id/tvAge"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="144dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="373dp"
         android:gravity="center"
         android:text="Age"
         android:textSize="20sp" />
