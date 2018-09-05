@@ -1,6 +1,7 @@
 package com.example.randikawann.cocoapp2;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -81,8 +82,13 @@ public class ProfileActivity extends AppCompatActivity {
                     tvAge.setText(userAge);
                     tvStatus.setText(userStatus);
                     tvGender.setText(userGender);
+
+
                     //retreve image with picasso
 //                    Picasso.get().load(userimage).into(imgProfile);
+//                    imgProfile.setImageURI(Uri.parse(userimage));
+
+
 
                 }
             }

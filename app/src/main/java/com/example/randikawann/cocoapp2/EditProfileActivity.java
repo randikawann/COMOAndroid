@@ -1,5 +1,6 @@
 package com.example.randikawann.cocoapp2;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +45,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etStatus;
     private Spinner spinnerGender;
     private Button btSubmit;
+    private CircleImageView imgProfile;
 
     private DatabaseReference userReference;
     private DatabaseReference getUserReference;
@@ -55,8 +59,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private String userimage;
     private String downloadUrl;
     private final static int Gallery_pick = 1;
-
-    private CircleImageView imgProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
 
                     //retreve image with picasso
-                    Picasso.get().load(userimage).into(imgProfile);
+//                    Picasso.get().load(userimage).into(imgProfile);
+//                    imgProfile.setImageURI(Uri.parse(userimage));
 
                 }
             }
@@ -125,20 +128,28 @@ public class EditProfileActivity extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, Gallery_pick);
+                openFileChooser();
+
             }
         });
 
     }
 
+    private void openFileChooser() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(galleryIntent, Gallery_pick);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-          if(requestCode==Gallery_pick && resultCode==RESULT_OK && data!=null){
+          if(requestCode==Gallery_pick && resultCode==RESULT_OK && data!=null && data.getData() !=null){
             Uri imageuri = data.getData();
+            imgProfile.setImageURI(imageuri);
+//            Picasso.get().load(imageuri).into(imgProfile);
+
             // start picker to get image for cropping and then use the image in cropping activity
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
@@ -153,24 +164,22 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 String user_id = mAuth.getCurrentUser().getUid();
                 //save image in firebase storage
-                StorageReference filePath = storeProfileImageStorageRef.child(user_id+".jpg");
+                final StorageReference filePath;
 
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                filePath = storeProfileImageStorageRef.child(user_id+".jpeg");
+
+
+                filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                        if(task.isSuccessful()){
-                            Toast.makeText(EditProfileActivity.this,"Saving your profile to firebase database",Toast.LENGTH_SHORT).show();
-                            downloadUrl = task.getResult().getStorage().getDownloadUrl().toString();
-//                            userReference.child("user_img").setValue(downloadUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    Toast.makeText(EditProfileActivity.this,"image uploaded succesfully",Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-
-                        }else
-                            Toast.makeText(EditProfileActivity.this,"Error Occur uploading",Toast.LENGTH_SHORT).show();
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        String url = taskSnapshot.getStorage().getPath().toString();
+                        Toast.makeText(EditProfileActivity.this,url,Toast.LENGTH_SHORT).show();
+                        userReference.child("user_img").setValue(url);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditProfileActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
@@ -190,7 +199,7 @@ public class EditProfileActivity extends AppCompatActivity {
             if(!TextUtils.isEmpty(userStatus)){
                 userReference.child("user_name").setValue(userName);
                 userReference.child("user_age").setValue(userAge);
-                userReference.child("user_img").setValue(downloadUrl);
+//                userReference.child("user_img").setValue(downloadUrl);
                 userReference.child("user_thumbImg").setValue("user_thumbImg");
                 userReference.child("user_status").setValue(userStatus);
                 userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -1,11 +1,32 @@
 package com.example.randikawann.cocoapp2;
 
 import android.annotation.SuppressLint;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllUsersActivity extends AppCompatActivity {
+
+    private RecyclerView mRecyclerView;
+    private ImageAdapter mAdapter;
+
+    private DatabaseReference mDatabaseRef;
+    private List<Upload> mUploads;
+
+
     Toolbar mToolbar;
     @SuppressLint("RestrictedApi")
     @Override
@@ -13,12 +34,38 @@ public class AllUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_users);
 
-        //Toolbar
-        mToolbar = findViewById(R.id.all_users_app_bar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("All Users");
-//        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mUploads = new ArrayList<>();
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("users");
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
+                    Upload upload = postSnapshot.getValue(Upload.class);
+                    mUploads.add(upload);
+                }
+                mAdapter = new ImageAdapter(AllUsersActivity.this,mUploads);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(AllUsersActivity.this,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//
+//        //Toolbar
+//        mToolbar = findViewById(R.id.all_users_app_bar);
+//        setSupportActionBar(mToolbar);
+//        getSupportActionBar().setTitle("All Users");
+////        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
