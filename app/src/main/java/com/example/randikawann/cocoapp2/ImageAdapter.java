@@ -2,7 +2,6 @@ package com.example.randikawann.cocoapp2;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.example.randikawann.cocoapp2.R.drawable.defaultuser;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
@@ -29,7 +24,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.user_list_layout , parent, false);
         return new ImageViewHolder(v);
 
     }
