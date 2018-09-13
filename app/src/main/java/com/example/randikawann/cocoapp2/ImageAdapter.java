@@ -15,11 +15,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
-    private List<Upload> mUploads;
+    private List<User> mAllusers;
 
-    public ImageAdapter (Context context, List<Upload> uploads){
+    public ImageAdapter (Context context, List<User> allusers){
         mContext = context;
-        mUploads = uploads;
+        mAllusers = allusers;
     }
     @NonNull
     @Override
@@ -32,7 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder , int position) {
         //this is add value for the database
-        Upload uploadCurrent = mUploads.get(position);
+        User uploadCurrent = mAllusers.get(position);
         holder.userName.setText(uploadCurrent.user_name);
         holder.userStatus.setText(uploadCurrent.user_status);
 //        holder.userImage.setImageURI(R.drawable.defaultuser);
@@ -42,7 +42,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     @Override
     public int getItemCount() {
-        return mUploads.size();
+        return mAllusers.size();
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{

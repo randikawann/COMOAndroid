@@ -24,7 +24,7 @@ public class AllUsersActivity extends AppCompatActivity {
     private ImageAdapter mAdapter;
 
     private DatabaseReference mDatabaseRef;
-    private List<Upload> mUploads;
+    private List<User> mAllusers;
 
 
     Toolbar mToolbar;
@@ -38,7 +38,7 @@ public class AllUsersActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mUploads = new ArrayList<>();
+        mAllusers = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("users");
 
@@ -46,10 +46,10 @@ public class AllUsersActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-                    Upload upload = postSnapshot.getValue(Upload.class);
-                    mUploads.add(upload);
+                    User upload = postSnapshot.getValue(User.class);
+                    mAllusers.add(upload);
                 }
-                mAdapter = new ImageAdapter(AllUsersActivity.this,mUploads);
+                mAdapter = new ImageAdapter(AllUsersActivity.this,mAllusers);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
