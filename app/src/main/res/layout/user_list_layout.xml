@@ -37,18 +37,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:background="@color/green"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    tools:text="Invite" />
+                <!--<Button-->
+                    <!--android:background="@color/green"-->
+                    <!--android:layout_width="120dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--tools:text="Invite" />-->
 
-                <Button
-                    android:background="@color/red"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    tools:text="Delete" />
+                <!--<Button-->
+                    <!--android:background="@color/red"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_width="120dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--tools:text="Delete" />-->
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -64,6 +64,27 @@
         android:text="Age"
         android:textSize="20sp" />
 
+    <Button
+        android:id="@+id/btsend_req"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="92dp"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="Send Request" />
+
+    <Button
+        android:id="@+id/btdecline_req"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="26dp"
+        android:gravity="center"
+        android:text="decline Request" />
+
 
 
 

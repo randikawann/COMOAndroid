@@ -2,12 +2,15 @@ package com.example.randikawann.cocoapp2;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private Context mContext;
     private List<User> mAllusers;
+    private static final String TAG = "MyActivity";
 
     public ImageAdapter (Context context, List<User> allusers){
         mContext = context;
@@ -30,11 +34,30 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder , int position) {
+    public void onBindViewHolder(@NonNull ImageViewHolder holder , final int position) {
         //this is add value for the database
         User uploadCurrent = mAllusers.get(position);
         holder.userName.setText(uploadCurrent.user_name);
         holder.userStatus.setText(uploadCurrent.user_status);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                String efszdx= mAllusers.get(position).user_name;
+                String selected_user_id= mAllusers.get(position).user_id;
+                Intent profileIntent = new Intent(v.getContext(),ProfileActivity.class);
+                profileIntent.putExtra("user_id",selected_user_id);
+                mContext.startActivity(profileIntent);
+//                Log.d("MyActivity", efszdx);
+//                int pos = getAdapterPosition();
+//
+//                // check if item still exists
+//                if(pos != RecyclerView.NO_POSITION){
+//                    RvDataItem clickedDataItem = dataItems.get(pos);
+//                    Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getName(), Toast.LENGTH_SHORT).show();
+//                }
+            }
+        });
 //        holder.userImage.setImageURI(R.drawable.defaultuser);
 //        holder.userImage.setImageResource(R.drawable.defaultuser);
 

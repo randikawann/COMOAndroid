@@ -58,6 +58,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String userStatus;
     private String userimage;
     private String downloadUrl;
+    private String current_User_Id;
     private final static int Gallery_pick = 1;
 
     @Override
@@ -82,7 +83,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //Add database Reference to user
         mAuth = FirebaseAuth.getInstance();
-        String current_User_Id = mAuth.getCurrentUser().getUid();
+        current_User_Id = mAuth.getCurrentUser().getUid();
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
         storeProfileImageStorageRef = FirebaseStorage.getInstance().getReference().child("profile_img");
 
@@ -190,6 +191,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     public void addUser(){
+
         userName = etUserName.getText().toString().trim();
         userAge = etAge.getText().toString();
         userStatus = etStatus.getText().toString();
@@ -197,6 +199,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(userName)){
             if(!TextUtils.isEmpty(userStatus)){
+                userReference.child("user_id").setValue(current_User_Id);
                 userReference.child("user_name").setValue(userName);
                 userReference.child("user_age").setValue(userAge);
 //                userReference.child("user_img").setValue(downloadUrl);

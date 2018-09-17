@@ -46,8 +46,9 @@ public class AllUsersActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-                    User upload = postSnapshot.getValue(User.class);
-                    mAllusers.add(upload);
+                    User userRetrieve = postSnapshot.getValue(User.class);
+
+                    mAllusers.add(userRetrieve);
                 }
                 mAdapter = new ImageAdapter(AllUsersActivity.this,mAllusers);
                 mRecyclerView.setAdapter(mAdapter);
@@ -58,6 +59,13 @@ public class AllUsersActivity extends AppCompatActivity {
                 Toast.makeText(AllUsersActivity.this,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+
+
+
+
 
 //
 //        //Toolbar

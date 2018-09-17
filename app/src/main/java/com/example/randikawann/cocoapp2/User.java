@@ -1,7 +1,9 @@
 package com.example.randikawann.cocoapp2;
 
+import android.widget.Toast;
+
 public class User {
-    String id;
+    String user_id;
     String user_name;
     String user_image;
     String user_age;
@@ -12,21 +14,22 @@ public class User {
     public User() {
     }
 
-    public User(String id , String user_name , String user_image , String user_age , String user_gender , String user_status) {
-        this.id = id;
+    public User(String user_id , String user_name , String user_image , String user_age , String user_gender , String user_status) {
+        this.user_id = user_id;
         this.user_name = user_name;
         this.user_image = user_image;
         this.user_age = user_age;
         this.user_gender = user_gender;
         this.user_status = user_status;
+
     }
 
-    public String getId() {
-        return id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getUser_name() {

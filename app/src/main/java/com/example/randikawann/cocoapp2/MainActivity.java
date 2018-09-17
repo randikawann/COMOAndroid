@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout myTabLayout;
     private TabPageAdapter myTabPageAdapter;
 
+    private String current_User_Id;
     //shaking sensor
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+
+//        curent user id
+        current_User_Id = mAuth.getCurrentUser().getUid();
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.profile: {
                 Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                profileIntent.putExtra("user_id",current_User_Id);
                 startActivity(profileIntent);
                 // do your sign-out stuff
                 break;
