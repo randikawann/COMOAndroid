@@ -62,7 +62,9 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 //        curent user id
-        current_User_Id = mAuth.getCurrentUser().getUid();
+        try {
+            current_User_Id = mAuth.getCurrentUser().getUid();
+        }catch (Exception e){}
 
         // ShakeDetector initialization
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
