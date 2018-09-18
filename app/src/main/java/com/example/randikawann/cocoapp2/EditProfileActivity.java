@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -199,8 +200,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(userName)){
             if(!TextUtils.isEmpty(userStatus)){
+                String deviceToken = FirebaseInstanceId.getInstance().getToken();
                 userReference.child("user_id").setValue(current_User_Id);
                 userReference.child("user_name").setValue(userName);
+                userReference.child("device_token").setValue(deviceToken);
                 userReference.child("user_age").setValue(userAge);
 //                userReference.child("user_img").setValue(downloadUrl);
                 userReference.child("user_thumbImg").setValue("user_thumbImg");

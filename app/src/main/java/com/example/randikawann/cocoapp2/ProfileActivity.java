@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference userReference;
     private DatabaseReference requestReference;
     private DatabaseReference friendsReference;
+    private DatabaseReference notificationReference;
 
     private String CURRENT_STATE="not_friends"; // send=1, recieve=2, norequest=0;
 
@@ -85,6 +87,7 @@ public class ProfileActivity extends AppCompatActivity {
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
         requestReference = FirebaseDatabase.getInstance().getReference().child("friends_request");
         friendsReference = FirebaseDatabase.getInstance().getReference().child("friends");
+        notificationReference = FirebaseDatabase.getInstance().getReference().child("notification");
 //        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
 //        button actions
@@ -313,10 +316,23 @@ public class ProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                btsend_req.setEnabled(true);
-                                btdecline_req.setVisibility(View.INVISIBLE);
-                                CURRENT_STATE = "request_send";
-                                btsend_req.setText("Cancel Friends Request");
+                                HashMap<String, String> notificationData = new HashMap<String, String>();
+                                notificationData.put("from", current_User_Id);
+                                notificationData.put("type", "request");
+                                notificationReference.child(user_id).push().setValue(notificationData)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    btsend_req.setEnabled(true);
+                                                    btdecline_req.setVisibility(View.INVISIBLE);
+                                                    CURRENT_STATE = "request_send";
+                                                    btsend_req.setText("Cancel Friends Request");
+                                                }
+                                            }
+                                        });
+
+
                             }
                         }
                     });

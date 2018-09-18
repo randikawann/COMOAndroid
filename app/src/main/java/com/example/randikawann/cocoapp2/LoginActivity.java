@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -17,6 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
+    private DatabaseReference userReference;
 
     private Button btVerify;
     private EditText etPhoneNum;
@@ -43,6 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         tvError = findViewById(R.id.tvError);
 
         mAuth = FirebaseAuth.getInstance();
+
+        userReference = FirebaseDatabase.getInstance().getReference().child("users");
 
         etVerifyCode.setEnabled(false);
 
@@ -118,13 +125,23 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-//                          //this is must be change as phone number.
+                            String current_user_id = mAuth.getCurrentUser().getUid();
+                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
-                            Intent mainIntent = new Intent(LoginActivity.this,EditProfileActivity.class);
-                            startActivity(mainIntent);
+                            userReference.child(current_user_id).child("device_token").setValue(deviceToken)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Sign in success, update UI with the signed-in user's information
+                //                          //this is must be change as phone number.
 
-                            finish();
+                                            Intent mainIntent = new Intent(LoginActivity.this,EditProfileActivity.class);
+                                            startActivity(mainIntent);
+
+                                            finish();
+                                        }
+                                    });
+
 
 
                             // ...
