@@ -107,7 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //                    String thumb_image = dataSnapshot.child("user_thumbImg").getValue().toString();
 
                     }catch (Exception e){
-                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
                     }
                     etUserName.setText(userName);
                     etAge.setText(userAge);

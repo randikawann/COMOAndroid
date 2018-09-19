@@ -124,7 +124,6 @@ public class ProfileActivity extends AppCompatActivity {
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.exists()) {
                                 if (dataSnapshot.hasChild(user_id)) {
                                     String request_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
 
@@ -137,7 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         btdecline_req.setVisibility(View.VISIBLE);
                                     }
                                 }
-                            }else{
+                            else{
                                 friendsReference.child(current_User_Id).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -252,11 +251,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void acceptFriendsRequest() {
-        friendsReference.child(current_User_Id).child(user_id).child("current_status").setValue("friends")
+        friendsReference.child(current_User_Id).child(user_id).child("date").setValue("added date") //date must be added to this 
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        friendsReference.child(user_id).child(current_User_Id).child("current_status").setValue("friends")
+                        friendsReference.child(user_id).child(current_User_Id).child("current_status").setValue("added date")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
