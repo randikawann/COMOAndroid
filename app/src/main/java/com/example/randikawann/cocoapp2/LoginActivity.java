@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        etVerifyCode.setEnabled(false);
+
 
         btVerify.setOnClickListener(new View.OnClickListener() {
             @Override

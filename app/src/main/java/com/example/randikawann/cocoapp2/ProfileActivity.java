@@ -251,11 +251,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void acceptFriendsRequest() {
-        friendsReference.child(current_User_Id).child(user_id).child("date").setValue("added date") //date must be added to this 
+        friendsReference.child(current_User_Id).child(user_id).child("date").setValue("added date") //date must be added to this
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        friendsReference.child(user_id).child(current_User_Id).child("current_status").setValue("added date")
+                        friendsReference.child(user_id).child(current_User_Id).child("date").setValue("added date")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
