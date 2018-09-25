@@ -42,32 +42,32 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        mRecyclerView = mRecyclerView.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mAllFriends = new ArrayList<>();
-
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends");
-
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-                    Friends friendsRetrieve = postSnapshot.getValue(Friends.class);
-
-                    mAllFriends.add(friendsRetrieve);
-                }
-                mAdapter = new FriendsAdapter( getContext(),mAllFriends);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+//        mRecyclerView = mRecyclerView.findViewById(R.id.recyclerView);
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        mAllFriends = new ArrayList<>();
+//
+//        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends");
+//
+//        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
+//                    Friends friendsRetrieve = postSnapshot.getValue(Friends.class);
+//
+//                    mAllFriends.add(friendsRetrieve);
+//                }
+//                mAdapter = new FriendsAdapter( getContext(),mAllFriends);
+//                mRecyclerView.setAdapter(mAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(),databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_friends,container,false);
