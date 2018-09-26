@@ -4,12 +4,12 @@ package com.example.randikawann.cocoapp2;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,16 +19,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
 
+    View v;
     private RecyclerView mRecyclerView;
-    private FriendsAdapter mAdapter;
+    private FriendsAdapter<F, RecyclerView.ViewHolder> mAdapter;
 
     private DatabaseReference mDatabaseRef;
+    private FirebaseAuth mAuth;
     private List<Friends> mAllFriends;
+
+    private String current_user_id;
 
     Toolbar mToolbar;
 
@@ -41,14 +46,14 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        mRecyclerView = mRecyclerView.findViewById(R.id.recyclerView);
+        v = inflater.inflate(R.layout.fragment_friends,container,false);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        FriendsAdapter<F, RecyclerView.ViewHolder> friendsAdapter = new FriendsAdapter<F, RecyclerView.ViewHolder>(getContext(),mAllFriends);
 
-        mAllFriends = new ArrayList<>();
-
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends");
+        mAuth = FirebaseAuth.getInstance();
+        current_user_id = mAuth.getCurrentUser().getUid();
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends").child(current_user_id);
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -58,7 +63,7 @@ public class FriendsFragment extends Fragment {
 
                     mAllFriends.add(friendsRetrieve);
                 }
-                mAdapter = new FriendsAdapter( getContext(),mAllFriends);
+                mAdapter = new FriendsAdapter<F, RecyclerView.ViewHolder>( getContext(),mAllFriends);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
@@ -70,7 +75,43 @@ public class FriendsFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends,container,false);
+        return v;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FriendsAdapter<Friends, FriendsViewHolder> firebaseRecyclerAdapter = new FriendsAdapter<Friends, FriendsViewHolder>(
+                Friends.class,
+                R.layout.user_friends_layout,
+                FriendsViewHolder.class,
+                mDatabaseRef
+        ){
+            @NonNull
+            @Override
+            public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
+                return super.onCreateViewHolder(parent , viewType);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull FriendsViewHolder holder , int position) {
+                super.onBindViewHolder(holder , position);
+                Friends uploadCurrent = mAllFriends.get(position);
+            }
+        };
+        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    }
+    public static class FriendsViewHolder extends RecyclerView.ViewHolder{
+        View mView;
+        public FriendsViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setDate(String date){
+            TextView sinceFriendsDate = (TextView) mView.findViewById(R.id.user_date_layout);
+            sinceFriendsDate.setText(date);
+        }
+    }
 }

@@ -10,23 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>{
+public class FriendsAdapter<F, F1 extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>{
     private Context mContext;
     private List<Friends> mAllFriends;
-    private static final String TAG = "MyActivity";
 
     public FriendsAdapter (Context context, List<Friends> allfriends){
-        mContext = context;
-        mAllFriends = allfriends;
+        this.mContext = context;
+        this.mAllFriends = allfriends;
     }
+
+    public FriendsAdapter(Class<F> friendsClass , int user_friends_layout , Class<F1> friendsViewHolderClass , DatabaseReference mDatabaseRef) {
+    }
+
     @NonNull
     @Override
     public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.user_friends_layout , parent, false);
+
         return new FriendsAdapter.FriendsViewHolder(v);
 
     }
@@ -41,19 +47,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String efszdx= mAllusers.get(position).user_name;
-                String selected_user_id = mAllFriends.get(position).user_id;
-                Intent profileIntent = new Intent(v.getContext() , ProfileActivity.class);
-                profileIntent.putExtra("user_id" , selected_user_id);
-                mContext.startActivity(profileIntent);
-//                Log.d("MyActivity", efszdx);
-//                int pos = getAdapterPosition();
-//
-//                // check if item still exists
-//                if(pos != RecyclerView.NO_POSITION){
-//                    RvDataItem clickedDataItem = dataItems.get(pos);
-//                    Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getName(), Toast.LENGTH_SHORT).show();
-//                }
+
             }
         });
 //        holder.userImage.setImageURI(R.drawable.defaultuser);
@@ -67,9 +61,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
     }
 
     public class FriendsViewHolder extends RecyclerView.ViewHolder{
-        public TextView userName;
-        public CircleImageView userImage;
-        public TextView userDate;
+        private TextView userName;
+        private CircleImageView userImage;
+        private TextView userDate;
 
         @SuppressLint("ResourceType")
         public FriendsViewHolder(View itemView){

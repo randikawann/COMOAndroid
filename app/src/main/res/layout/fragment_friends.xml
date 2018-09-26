@@ -9,16 +9,17 @@
         android:id="@+id/all_friends_app_bar">
     </include>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/friendsrecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="100dp" />
+
     <!-- TODO: Update blank fragment layout -->
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="157dp"
-        android:textSize="40sp"
-        android:text="TextView" />
+
 </RelativeLayout>
