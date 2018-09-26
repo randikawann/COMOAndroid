@@ -31,6 +31,7 @@ public class FriendsFragment extends Fragment {
     private List<Friends> mAllFriends;
 
     Toolbar mToolbar;
+    private View v;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -41,10 +42,11 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        mRecyclerView = mRecyclerView.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        v = inflater.inflate(R.layout.fragment_friends,container,false);
+        mRecyclerView = v.findViewById(R.id.recyclerview);
+        FriendsAdapter friendsAdapter = new FriendsAdapter(getContext(),mAllFriends);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(friendsAdapter);
 
         mAllFriends = new ArrayList<>();
 
@@ -70,7 +72,7 @@ public class FriendsFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends,container,false);
+        return v;
     }
 
 }

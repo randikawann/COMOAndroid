@@ -17,10 +17,10 @@ class TabPageAdapter extends FragmentPagerAdapter{
                 RequestFragment requestFragment = new RequestFragment();
                 return requestFragment;
             case 1:
-                RequestFragment chatsFragment = new RequestFragment();
+                ChatsFragment chatsFragment = new ChatsFragment();
                 return chatsFragment;
             case 2:
-                RequestFragment friendsFragment = new RequestFragment();
+                FriendsFragment friendsFragment = new FriendsFragment();
                 return friendsFragment;
             default:
                 return null;
