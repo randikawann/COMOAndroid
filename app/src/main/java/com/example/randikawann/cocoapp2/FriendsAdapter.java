@@ -39,6 +39,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//this is for selected item
 //                String efszdx= mAllusers.get(position).user_name;
 //                String selected_user_id= mAllfriends.get(position).user_id;
 //                Intent profileIntent = new Intent(v.getContext(),ProfileActivity.class);
