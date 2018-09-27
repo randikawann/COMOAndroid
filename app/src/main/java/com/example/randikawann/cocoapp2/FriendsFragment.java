@@ -25,126 +25,55 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FriendsFragment extends Fragment {
-
-    View v;
     private RecyclerView mRecyclerView;
+    private ImageAdapter mAdapter;
 
+    private DatabaseReference mDatabaseRef;
+    private List<User> mAllusers;
 
-    private DatabaseReference friendsReference;
-    private DatabaseReference userReference;
-    private FirebaseAuth mAuth;
-    private List<Friends> mAllFriends;
-
-    private String current_user_id;
 
     Toolbar mToolbar;
-
-    public FriendsFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View v;
         v = inflater.inflate(R.layout.fragment_friends,container,false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
-
-        mAuth = FirebaseAuth.getInstance();
-        current_user_id = mAuth.getCurrentUser().getUid();
-        friendsReference = FirebaseDatabase.getInstance().getReference("friends").child(current_user_id);
-        userReference = FirebaseDatabase.getInstance().getReference("user");
+        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mAllusers = new ArrayList<>();
 
-//        mDatabaseRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-//                    Friends friendsRetrieve = postSnapshot.getValue(Friends.class);
-//
-//                    mAllFriends.add(friendsRetrieve);
-//                }
-//                mAdapter = new FriendsAdapter<F, RecyclerView.ViewHolder>( getContext(),mAllFriends);
-//                mRecyclerView.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(getContext(),databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends");
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
+                    User userRetrieve = postSnapshot.getValue(User.class);
+
+                    mAllusers.add(userRetrieve);
+                }
+                mAdapter = new ImageAdapter(getActivity(),mAllusers);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(),databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         // Inflate the layout for this fragment
         return v;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<Friends>()
-                .setQuery(friendsReference, Friends.class).build();
-
-
-        FirebaseRecyclerAdapter<Friends, FriendsViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Friends, FriendsViewHolder>(
-                personsOptions
-        ){
-            @NonNull
-            @Override
-            public FriendsViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
-                return null;
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull FriendsViewHolder holder , int position , @NonNull Friends model) {
-                holder.setDate(model.getDate());
-                String list_user_id = getRef(position).getKey();
-                userReference.child(list_user_id).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String username = dataSnapshot.child("user_name").getValue().toString();
-
-//                        ImageView userImage = dataSnapshot.child("")
-
-                        FriendsViewHolder.setUserName(username);
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-
-
-        };
-
-        mRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    }
-    public static class FriendsViewHolder extends RecyclerView.ViewHolder{
-        static View mView;
-        public FriendsViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setDate(String date){
-            TextView sinceFriendsDate = (TextView) mView.findViewById(R.id.user_date_layout);
-            sinceFriendsDate.setText(date);
-        }
-
-        public static void setUserName(String username){
-            TextView userNameDisplay = (TextView) mView.findViewById(R.id.user_name_layout);
-            userNameDisplay.setText(username);
-        }
-    }
 }
