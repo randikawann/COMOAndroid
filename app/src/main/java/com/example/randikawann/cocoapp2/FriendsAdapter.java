@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -17,7 +20,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
     private Context mContext;
     private List<Friends> mAllfriends;
-
+    private DatabaseReference userReference;
     public FriendsAdapter(Context context , List<Friends> allfriends) {
         mContext = context;
         mAllfriends = allfriends;
@@ -29,6 +32,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         View v = LayoutInflater.from(mContext).inflate(R.layout.user_list_layout , parent, false);
         return new FriendsAdapter.FriendsViewHolder(v);
 
+
     }
 
     @Override
@@ -36,13 +40,15 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         Friends uploadCurrent = mAllfriends.get(position);
         holder.userDate.setText(uploadCurrent.date);
 
+        userReference = FirebaseDatabase.getInstance().getReference().child("users");
+        
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 //this is for selected item
-//                String efszdx= mAllusers.get(position).user_name;
-//                String selected_user_id= mAllfriends.get(position).user_id;
+//                String efszdx= mAllfriends.get(position).user_name;
+                String selected_user_id= mAllfriends.get(position).();
 //                Intent profileIntent = new Intent(v.getContext(),ProfileActivity.class);
 //                profileIntent.putExtra("user_id",selected_user_id);
 //                mContext.startActivity(profileIntent);
