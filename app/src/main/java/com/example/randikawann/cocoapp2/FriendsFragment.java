@@ -34,6 +34,7 @@ public class FriendsFragment extends Fragment {
 
     private DatabaseReference mDatabaseRef;
     private List<User> mAllusers;
+    View v;
 
 
     Toolbar mToolbar;
@@ -42,11 +43,10 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v;
+
         v = inflater.inflate(R.layout.fragment_friends,container,false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mAllusers = new ArrayList<>();
