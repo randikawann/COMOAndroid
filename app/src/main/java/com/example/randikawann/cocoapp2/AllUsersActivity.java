@@ -47,7 +47,6 @@ public class AllUsersActivity extends AppCompatActivity {
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
 
                     User userRetrieve = postSnapshot.getValue(User.class);
-                    Toast.makeText(AllUsersActivity.this ,userRetrieve.toString() , Toast.LENGTH_SHORT).show();
                     mAllusers.add(userRetrieve);
 
 
