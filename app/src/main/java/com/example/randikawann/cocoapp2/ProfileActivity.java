@@ -1,5 +1,6 @@
 package com.example.randikawann.cocoapp2;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -58,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
     private String userGender;
     private String userStatus;
     private String userimage;
+
+    private String dateString;
     private DatabaseReference userReference;
     private DatabaseReference userReference2;
     private DatabaseReference requestReference;
@@ -98,6 +101,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+//        added current date
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
+        dateString = sdf.format(date);
 
         user_id = getIntent().getExtras().getString("user_id");
 //        user_id = current_User_Id;
@@ -150,9 +158,10 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                             else{
                                 friendsReference.child(current_User_Id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @SuppressLint("SetTextI18n")
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if(dataSnapshot.hasChild(current_User_Id)){
+                                        if(dataSnapshot.hasChild(user_id)){
                                             CURRENT_STATE = "friends";
                                             btsend_req.setText("Unfriends this person");
                                         }
@@ -263,11 +272,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void acceptFriendsRequest() {
-        friendsReference.child(current_User_Id).child(user_id).child("date").setValue("added date") //date must be added to this
+        friendsReference.child(current_User_Id).child(user_id).child("date").setValue(dateString) //date must be added to this
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        friendsReference.child(user_id).child(current_User_Id).child("date").setValue("added date")
+                        friendsReference.child(user_id).child(current_User_Id).child("date").setValue(dateString)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
