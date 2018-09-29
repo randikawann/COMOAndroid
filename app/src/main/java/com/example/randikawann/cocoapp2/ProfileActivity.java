@@ -53,11 +53,13 @@ public class ProfileActivity extends AppCompatActivity {
     private String user_id;
     private String current_User_Id;
     private String userName;
+    private String currentuserName;
     private String userAge;
     private String userGender;
     private String userStatus;
     private String userimage;
     private DatabaseReference userReference;
+    private DatabaseReference userReference2;
     private DatabaseReference requestReference;
     private DatabaseReference friendsReference;
 
@@ -79,7 +81,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+
         current_User_Id = mAuth.getCurrentUser().getUid();
+        //        this is for user accept task
+        userReference2 = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
+        userReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    currentuserName = dataSnapshot.child("user_name").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         user_id = getIntent().getExtras().getString("user_id");
 //        user_id = current_User_Id;
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
@@ -108,14 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
                     userGender = dataSnapshot.child("user_gender").getValue().toString();
                     userStatus = dataSnapshot.child("user_status").getValue().toString();
 //                    userimage = dataSnapshot.child("user_img").getValue().toString();
-                    try{
 
-
-//                    String thumb_image = dataSnapshot.child("user_thumbImg").getValue().toString();
-
-                    }catch (Exception e){
-                        Toast.makeText(ProfileActivity.this,e.toString(),Toast.LENGTH_SHORT).show();
-                    }
                     tvUserName.setText(userName);
                     tvAge.setText(userAge);
                     tvStatus.setText(userStatus);
@@ -267,6 +279,10 @@ public class ProfileActivity extends AppCompatActivity {
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
+                                                                    friendsReference.child(current_User_Id).child(user_id).child("friends_id").setValue(user_id);
+                                                                    friendsReference.child(user_id).child(current_User_Id).child("friends_id").setValue(current_User_Id);
+                                                                    friendsReference.child(current_User_Id).child(user_id).child("friends_name").setValue(userName);
+                                                                    friendsReference.child(user_id).child(current_User_Id).child("friends_name").setValue(currentuserName);
                                                                     CURRENT_STATE="friends";
                                                                     btsend_req.setText("Unfriends this person");
                                                                     btdecline_req.setVisibility(View.INVISIBLE);

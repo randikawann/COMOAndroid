@@ -20,6 +20,7 @@ public class FlashActivity extends AppCompatActivity {
 
                 }finally {
                     Intent mainIntent = new Intent(FlashActivity.this,MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                 }
             }

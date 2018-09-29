@@ -40,6 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         User uploadCurrent = mAllusers.get(position);
         holder.userName.setText(uploadCurrent.user_name);
         holder.userStatus.setText(uploadCurrent.user_status);
+//        holder.userStatus.setText();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

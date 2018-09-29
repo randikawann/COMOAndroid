@@ -30,14 +30,13 @@ import java.util.List;
 
 public class FriendsFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private FriendsAdapter mAdapter;
+    private DatabaseReference friendsReference;
+    private List<Friends> mAllFriends;
+    private String current_User_Id;
+    private  FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabaseRef;
-    private List<User> mAllusers;
     View v;
-
-
-    Toolbar mToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,27 +48,33 @@ public class FriendsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAllusers = new ArrayList<>();
+        mAllFriends = new ArrayList<>();
+        mAuth = FirebaseAuth.getInstance();
+        current_User_Id = mAuth.getCurrentUser().getUid();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("friends");
-
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        friendsReference = FirebaseDatabase.getInstance().getReference("friends").child(current_User_Id);
+        friendsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-                    User userRetrieve = postSnapshot.getValue(User.class);
 
-                    mAllusers.add(userRetrieve);
-                }
-                mAdapter = new ImageAdapter(getActivity(),mAllusers);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Friends friendsRetrieve = postSnapshot.getValue(Friends.class);
+                    mAllFriends.add(friendsRetrieve);
+            }
+
+                mAdapter = new FriendsAdapter(getContext(),mAllFriends);
                 mRecyclerView.setAdapter(mAdapter);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(),databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity() , databaseError.getMessage() , Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
 
         // Inflate the layout for this fragment

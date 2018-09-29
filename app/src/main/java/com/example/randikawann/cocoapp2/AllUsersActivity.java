@@ -22,7 +22,6 @@ public class AllUsersActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ImageAdapter mAdapter;
-
     private DatabaseReference mDatabaseRef;
     private List<User> mAllusers;
 
@@ -46,10 +45,14 @@ public class AllUsersActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
-                    User userRetrieve = postSnapshot.getValue(User.class);
 
+                    User userRetrieve = postSnapshot.getValue(User.class);
+                    Toast.makeText(AllUsersActivity.this ,userRetrieve.toString() , Toast.LENGTH_SHORT).show();
                     mAllusers.add(userRetrieve);
+
+
                 }
+
                 mAdapter = new ImageAdapter(AllUsersActivity.this,mAllusers);
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -59,6 +62,7 @@ public class AllUsersActivity extends AppCompatActivity {
                 Toast.makeText(AllUsersActivity.this,databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
 
