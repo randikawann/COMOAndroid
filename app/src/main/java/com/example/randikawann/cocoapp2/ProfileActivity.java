@@ -231,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void declinefriendsreq() {
+    public void declinefriendsreq() {
         requestReference.child(user_id).child(current_User_Id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

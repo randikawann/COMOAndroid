@@ -22,7 +22,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
     private Context mContext;
     private List<Friends> mAllFriends;
-    private List<User> mfriendsUser;
 
     public FriendsAdapter(Context context , List<Friends> allfriends) {
         this.mContext = context;
