@@ -5,23 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
+public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.ImageViewHolder> {
     private Context mContext;
     private List<User> mAllusers;
     private static final String TAG = "MyActivity";
 
-    public ImageAdapter (Context context, List<User> allusers){
+    public AllUsersAdapter(Context context, List<User> allusers){
         mContext = context;
         mAllusers = allusers;
     }

@@ -38,7 +38,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
-    private Toolbar mToolbar;
 
     private EditText etUserName;
     private EditText etAge;
@@ -69,7 +68,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         //Toolbar
-        mToolbar = findViewById(R.id.edit_activity_toolbar);
+        Toolbar mToolbar = findViewById(R.id.edit_activity_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Edit Profile");
         //

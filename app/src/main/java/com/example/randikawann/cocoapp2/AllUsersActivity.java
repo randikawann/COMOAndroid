@@ -21,7 +21,7 @@ import java.util.List;
 public class AllUsersActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private ImageAdapter mAdapter;
+    private AllUsersAdapter mAdapter;
     private DatabaseReference mDatabaseRef;
     private List<User> mAllusers;
 
@@ -52,7 +52,7 @@ public class AllUsersActivity extends AppCompatActivity {
 
                 }
 
-                mAdapter = new ImageAdapter(AllUsersActivity.this,mAllusers);
+                mAdapter = new AllUsersAdapter(AllUsersActivity.this,mAllusers);
                 mRecyclerView.setAdapter(mAdapter);
             }
 

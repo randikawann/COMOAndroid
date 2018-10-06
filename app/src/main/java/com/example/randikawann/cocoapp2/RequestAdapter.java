@@ -3,21 +3,43 @@ package com.example.randikawann.cocoapp2;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
     private Context mContext;
     private List<Request> mAllRequest;
     private Dialog mDialog;
+    private DatabaseReference requestReference;
+    private DatabaseReference friendsReference;
+    private DatabaseReference userReference;
+    private FirebaseAuth mAuth;
+    String friends_user_id;
+    String current_user_id;
+    String friends_user_name;
+    String current_user_name;
+    private String dateString;
 
     public RequestAdapter(Context context , List<Request> mAllRequest) {
         this.mContext = context;
@@ -30,22 +52,34 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     @NonNull
     @Override
     public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
+        View v;
+        v = LayoutInflater.from(mContext).inflate(R.layout.request_list_layout , parent, false);
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.request_list_layout , parent, false);
         final RequestViewHolder vHolder = new RequestViewHolder(v);
 
         mDialog = new Dialog(mContext);
         mDialog.setContentView(R.layout.dialog_request);
-        TextView dialog_name = (TextView) mDialog.findViewById(R.id.tvItem_name);
-        TextView dialog_status = (TextView) mDialog.findViewById(R.id.tvrequestType);
-        ImageView dialog_image = (ImageView) mDialog.findViewById(R.id.friends_img);
 
+        requestReference = FirebaseDatabase.getInstance().getReference().child("friends_request");
+        friendsReference = FirebaseDatabase.getInstance().getReference().child("friends");
+        userReference = FirebaseDatabase.getInstance().getReference().child("users");
+        mAuth = FirebaseAuth.getInstance();
+        current_user_id = mAuth.getCurrentUser().getUid();
 
-        vHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
+        dateString = sdf.format(date);
+
+        userReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext,String.valueOf(vHolder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
-                mDialog.show();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                current_user_name = userReference.child(current_user_id).child("user_name").toString();
+                Toast.makeText(mContext,"user name"+current_user_name,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
@@ -56,26 +90,103 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
     @Override
     public void onBindViewHolder(@NonNull final RequestViewHolder holder , int position) {
+
+
         Request uploadCurrent = mAllRequest.get(position);
         holder.request_type.setText(uploadCurrent.request_type);
         holder.userName.setText(uploadCurrent.friends_name);
 
+        friends_user_id = uploadCurrent.friends_id;
 
+
+        mDialog = new Dialog(mContext);
+        mDialog.setContentView(R.layout.dialog_request);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,String.valueOf(holder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+                TextView tvItem_name = mDialog.findViewById(R.id.tvItem_name);
+                TextView tvrequest_type = mDialog.findViewById(R.id.tvrequestType);
+                Button btsend_req = mDialog.findViewById(R.id.btsend_req);
+                Button btdecline_req = mDialog.findViewById(R.id.btdecline_req);
+                ImageView friends_img = mDialog.findViewById(R.id.friends_img);
+
+                String status=mAllRequest.get(holder.getAdapterPosition()).getStatus();
+                tvItem_name.setText(mAllRequest.get(holder.getAdapterPosition()).getFriends_name());
+                tvrequest_type.setText(mAllRequest.get(holder.getAdapterPosition()).getStatus());
+
+                final ProfileActivity profileintent =new ProfileActivity();
+
+                if(status.equals("send")){
+                    btsend_req.setText("Cancel Friends Request");
+                    btdecline_req.setVisibility(View.INVISIBLE);
+                    btsend_req.setOnClickListener(new View.OnClickListener() {
+//                        cancel friends request
+                        @Override
+                        public void onClick(View v) {
+                            friends_user_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
+                            requestReference.child(friends_user_id).child(current_user_id).removeValue();
+                            requestReference.child(current_user_id).child(friends_user_id).removeValue();
+
+                            mDialog.dismiss();
+                        }
+                    });
+                }if(status.equals("recieved")){
+                    btsend_req.setText("Accept Friends Request");
+                    btdecline_req.setText("Decline Friends Request");
+                    btsend_req.setOnClickListener(new View.OnClickListener() {
+//                    Accept friends request
+                        @Override
+                        public void onClick(View v) {
+                            friends_user_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
+                            friends_user_name = mAllRequest.get(holder.getAdapterPosition()).getFriends_name();
+
+                            requestReference.child(friends_user_id).child(current_user_id).removeValue();
+                            requestReference.child(current_user_id).child(friends_user_id).removeValue();
+
+                            friendsReference.child(current_user_id).child(friends_user_id).child("friends_id").setValue(friends_user_id);
+                            friendsReference.child(friends_user_id).child(current_user_id).child("friends_id").setValue(current_user_id);
+                            friendsReference.child(current_user_id).child(friends_user_id).child("friends_name").setValue(friends_user_name);
+                            friendsReference.child(friends_user_id).child(current_user_id).child("friends_name").setValue(current_user_name);
+                            friendsReference.child(current_user_id).child(friends_user_id).child("date").setValue(dateString);
+                            friendsReference.child(friends_user_id).child(current_user_id).child("date").setValue(dateString);
+
+                            mDialog.dismiss();
+
+                        }
+                    });
+                    btdecline_req.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            friends_user_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
+                            requestReference.child(friends_user_id).child(current_user_id).removeValue();
+                            requestReference.child(current_user_id).child(friends_user_id).removeValue();
+
+                            mDialog.dismiss();
+
+                        }
+                    });
+                }else{
+                }
+
+
+                mDialog.show();
+
 
             }
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         return mAllRequest.size();
     }
+
+
 
 
     public class RequestViewHolder extends RecyclerView.ViewHolder {
@@ -90,7 +201,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             userName = itemView.findViewById(R.id.friends_name_layout);
             request_type = itemView.findViewById(R.id.user_status_layout);
             item_name = itemView.findViewById(R.id.tvItem_name);
-
         }
 
     }

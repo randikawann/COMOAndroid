@@ -271,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    private void acceptFriendsRequest() {
+    public void acceptFriendsRequest() {
         friendsReference.child(current_User_Id).child(user_id).child("date").setValue(dateString) //date must be added to this
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -305,7 +305,7 @@ public class ProfileActivity extends AppCompatActivity {
                 });
     }
 
-    private void cancelFriendsRequest() {
+    public void cancelFriendsRequest() {
         requestReference.child(user_id).child(current_User_Id).removeValue()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -332,6 +332,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    requestReference.child(user_id).child(current_User_Id).child("friends_id").setValue(current_User_Id);
+                    requestReference.child(user_id).child(current_User_Id).child("friends_name").setValue(currentuserName);
+
+                    requestReference.child(current_User_Id).child(user_id).child("friends_id").setValue(user_id);
+                    requestReference.child(current_User_Id).child(user_id).child("friends_name").setValue(userName);
+
                     requestReference.child(user_id).child(current_User_Id) // send=1, recieve=2, norequest=0;
                             .child("request_type").setValue("recieved").addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

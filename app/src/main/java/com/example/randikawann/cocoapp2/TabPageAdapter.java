@@ -13,15 +13,13 @@ class TabPageAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         switch (position){
+
             case 0:
-                RequestFragment requestFragment = new RequestFragment();
-                return requestFragment;
+                return new RequestFragment();
             case 1:
-                ChatsFragment chatsFragment = new ChatsFragment();
-                return chatsFragment;
+                return new ChatsFragment();
             case 2:
-                FriendsFragment friendsFragment = new FriendsFragment();
-                return friendsFragment;
+                return new FriendsFragment();
             default:
                 return null;
         }
@@ -45,4 +43,5 @@ class TabPageAdapter extends FragmentPagerAdapter{
                 return null;
         }
     }
+
 }
