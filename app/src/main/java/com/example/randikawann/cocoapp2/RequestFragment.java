@@ -47,31 +47,34 @@ public class RequestFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
         mAllrequest = new ArrayList<Request>();
         mAuth = FirebaseAuth.getInstance();
-        current_User_Id = mAuth.getCurrentUser().getUid();
+        try {
+            current_User_Id = mAuth.getCurrentUser().getUid();
+            friendsReference = FirebaseDatabase.getInstance().getReference("friends_request").child(current_User_Id);
+            friendsReference.addValueEventListener(new ValueEventListener() {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        friendsReference = FirebaseDatabase.getInstance().getReference("friends_request").child(current_User_Id);
-        friendsReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        Request requestsRetrieve = postSnapshot.getValue(Request.class);
+                        mAllrequest.add(requestsRetrieve);
+                    }
 
-                    Request requestsRetrieve = postSnapshot.getValue(Request.class);
-                    mAllrequest.add(requestsRetrieve);
+                    mAdapter = new RequestAdapter(getContext(),mAllrequest);
+                    mRecyclerView.setAdapter(mAdapter);
+
                 }
 
-                mAdapter = new RequestAdapter(getContext(),mAllrequest);
-                mRecyclerView.setAdapter(mAdapter);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(getActivity() , databaseError.getMessage() , Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            }
+        }catch(Exception e){}
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity() , databaseError.getMessage() , Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 

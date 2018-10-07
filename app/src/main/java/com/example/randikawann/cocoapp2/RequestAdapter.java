@@ -74,7 +74,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 current_user_name = userReference.child(current_user_id).child("user_name").toString();
-                Toast.makeText(mContext,"user name"+current_user_name,Toast.LENGTH_SHORT).show();
             }
 
             @Override

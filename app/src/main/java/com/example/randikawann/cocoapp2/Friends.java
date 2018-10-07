@@ -1,6 +1,6 @@
 package com.example.randikawann.cocoapp2;
 
-public class Friends {
+public class Friends extends User{
     String friends_id;
     String date;
     String friends_name;
