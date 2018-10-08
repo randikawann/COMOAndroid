@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -52,19 +53,12 @@ public class NearbyActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
-        gpsLocation();
+        current_user_name =getIntent().getExtras().getString("current_user_name");
+        gpsLocation(current_user_name);
 
-//        get value from main intent
-//        double current_user_lat = (double) getIntent().getExtras().get("lat");
-//        double current_user_lon = (double) getIntent().getExtras().get("lon");
-
-        mNearbyUser = new ArrayList<Nearby>();
+        mNearbyUser = new ArrayList<>();
 
         gpsReference = FirebaseDatabase.getInstance().getReference("gpslocation");
-//        userReference = FirebaseDatabase.getInstance().getReference("users");
-//        current_user_name = userReference.child(current_User_Id).child("user_name").toString();
-//        Toast.makeText(NearbyActivity.this,current_user_name,Toast.LENGTH_SHORT).show();
-
         gpsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -110,7 +104,7 @@ public class NearbyActivity extends AppCompatActivity {
 
     }
 
-    private void gpsLocation() {
+    private void gpsLocation(String current_user_name) {
         //        added current date
         long date = System.currentTimeMillis();
         SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
@@ -126,10 +120,10 @@ public class NearbyActivity extends AppCompatActivity {
             current_lon = location.getLongitude();
 //            Toast.makeText(NearbyActivity.this,"current value with near"+current_lat+" "+current_lon,Toast.LENGTH_SHORT).show();
 //            Toast.makeText(NearbyActivity.this,"Lat is " + current_lat,Toast.LENGTH_SHORT).show();
-//            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
             gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
             gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
             gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
+            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
 //            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
 
         }else{

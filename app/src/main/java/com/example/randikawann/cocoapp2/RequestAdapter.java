@@ -73,7 +73,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                current_user_name = userReference.child(current_user_id).child("user_name").toString();
+                if(dataSnapshot.getValue()!=null){
+                    current_user_name = dataSnapshot.child(current_user_id).child("user_name").getValue().toString();
+                }
+
             }
 
             @Override

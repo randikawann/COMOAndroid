@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String current_User_Id;
     private String userName;
     private String currentuserName;
+    private String friendsuserName;
     private String userAge;
     private String userGender;
     private String userStatus;
@@ -63,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String dateString;
     private DatabaseReference userReference;
     private DatabaseReference userReference2;
+    private DatabaseReference userReference3;
     private DatabaseReference requestReference;
     private DatabaseReference friendsReference;
 
@@ -87,12 +90,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         current_User_Id = mAuth.getCurrentUser().getUid();
         //        this is for user accept task
-        userReference2 = FirebaseDatabase.getInstance().getReference().child("users").child(current_User_Id);
+        userReference2 = FirebaseDatabase.getInstance().getReference().child("users");
         userReference2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    currentuserName = dataSnapshot.child("user_name").getValue().toString();
+                    currentuserName = dataSnapshot.child(current_User_Id).child("user_name").getValue().toString();
+//                    Toast.makeText(ProfileActivity.this,"current_user name"+currentuserName,Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -108,6 +112,21 @@ public class ProfileActivity extends AppCompatActivity {
         dateString = sdf.format(date);
 
         user_id = getIntent().getExtras().getString("user_id");
+
+        userReference2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    friendsuserName = dataSnapshot.child(user_id).child("user_name").getValue().toString();
+                   }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 //        user_id = current_User_Id;
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
         requestReference = FirebaseDatabase.getInstance().getReference().child("friends_request");
@@ -290,7 +309,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     friendsReference.child(current_User_Id).child(user_id).child("friends_id").setValue(user_id);
                                                                     friendsReference.child(user_id).child(current_User_Id).child("friends_id").setValue(current_User_Id);
-                                                                    friendsReference.child(current_User_Id).child(user_id).child("friends_name").setValue(userName);
+                                                                    friendsReference.child(current_User_Id).child(user_id).child("friends_name").setValue(friendsuserName);
                                                                     friendsReference.child(user_id).child(current_User_Id).child("friends_name").setValue(currentuserName);
                                                                     CURRENT_STATE="friends";
                                                                     btsend_req.setText("Unfriends this person");
