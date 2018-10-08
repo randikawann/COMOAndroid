@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NearbyActivity extends AppCompatActivity {
+    private android.support.v7.widget.Toolbar mainToolBar;
     private RecyclerView mRecyclerView;
     private NearbyAdapter mAdapter;
     private DatabaseReference gpsReference;
@@ -46,6 +47,12 @@ public class NearbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
+
+
+        mainToolBar = findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mainToolBar);
+        getSupportActionBar().setTitle("COMO Android");
+
 
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mRecyclerView.setHasFixedSize(true);

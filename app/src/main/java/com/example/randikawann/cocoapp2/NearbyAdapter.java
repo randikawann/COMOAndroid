@@ -1,17 +1,22 @@
 package com.example.randikawann.cocoapp2;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -22,6 +27,9 @@ class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyViewHolder>
     private Context mContext;
     private List<Nearby> mNearbyusers;
     private Dialog mDialog;
+    private double current_lat;
+    private double current_lon;
+
 
     public NearbyAdapter(Context context, List<Nearby> nearbyusers){
         mContext = context;
@@ -49,6 +57,11 @@ class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyViewHolder>
         holder.userName.setText(nearbyCurrent.getUser_name());
         holder.userDate.setText(nearbyCurrent.getLastupdated());
 
+        //get current gps value
+        currentgps();
+
+        Toast.makeText(mContext,current_lat + "&&" + current_lon,Toast.LENGTH_SHORT ).show();
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +77,10 @@ class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyViewHolder>
                     @Override
                     public void onClick(View v) {
                         Intent mapIntent = new Intent(mContext,MapsActivity.class);
-
+                        mapIntent.putExtra("current_user_lat",current_lat);
+                        mapIntent.putExtra("current_user_lon",current_lon);
+                        mapIntent.putExtra("friends_lat",mNearbyusers.get(holder.getAdapterPosition()).getLatitute());
+                        mapIntent.putExtra("friends_lon",mNearbyusers.get(holder.getAdapterPosition()).getLongitude());
                         mContext.startActivity(mapIntent);
                     }
                 });
@@ -94,6 +110,18 @@ class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyViewHolder>
             userDate = itemView.findViewById(R.id.user_status_layout);
 
 
+        }
+    }
+    private void currentgps(){
+        ActivityCompat.requestPermissions((Activity) mContext ,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
+        GpsTracker gpsTracker = new GpsTracker(mContext.getApplicationContext());
+        Location location = gpsTracker.getLocation();
+        if(location !=null){
+            current_lat = location.getLatitude();
+            current_lon = location.getLongitude();
+
+        }else{
+//            Toast.makeText(NearbyActivity.this,"Location not Updated....",Toast.LENGTH_SHORT).show();
         }
     }
 }
