@@ -69,7 +69,6 @@ public class NearbyActivity extends AppCompatActivity {
 //                    Toast.makeText(NearbyActivity.this,postSnapshot.getChildren().toString(),Toast.LENGTH_SHORT).show();
                     Nearby nearbyRetrieve = postSnapshot.getValue(Nearby.class);
                     double lat = nearbyRetrieve.getLatitute();
-
                     double lon = nearbyRetrieve.getLongitude();
 
 //                    Toast.makeText(NearbyActivity.this,"users value with near"+lat+" "+lon,Toast.LENGTH_SHORT).show();
