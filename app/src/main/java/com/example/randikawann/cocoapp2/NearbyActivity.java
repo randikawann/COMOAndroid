@@ -80,8 +80,8 @@ public class NearbyActivity extends AppCompatActivity {
 
 //                    Toast.makeText(NearbyActivity.this,"users value with near"+lat+" "+lon,Toast.LENGTH_SHORT).show();
                         // lag .01 = 1km, lag .001 = 100m
-                    if(current_lat - 0.001 <= lat && lat <= current_lat + 0.001){
-                        if(current_lon - 0.001 <= lon && lon <= current_lon + 0.001) {
+                    if(current_lat - 3.02 <= lat && lat <= current_lat + 3.02){
+                        if(current_lon - 3.02 <= lon && lon <= current_lon + 3.02) {
                             Nearby nearbywith = postSnapshot.getValue(Nearby.class);
                             mNearbyUser.add(nearbywith);
 
