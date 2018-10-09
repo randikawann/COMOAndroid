@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -217,23 +218,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
             super.onPostExecute(lists);
             //get list  route and display it intothe map
+            Log.i("reallog","1st");
 
-            ArrayList points = null;
+            ArrayList<LatLng> points = null;
             PolylineOptions polylineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
 
-            for(List<HashMap<String, String>> path : lists){
-                points = new ArrayList();
-
+            //Traveling through all the routes
+            for(int i=0;i<lists.size();i++){
+                Log.i("reallog","2nd");
+                points = new ArrayList<LatLng>();
                 polylineOptions = new PolylineOptions();
 
-                for(HashMap<String, String> point : path){
+                // Fetching i-th route
+                List<HashMap<String, String>> path = lists.get(i);
+
+                // Fetching all the points in i-th route
+                for(int j=0;j<path.size();j++){
+                    Log.i("reallog","3rd");
+                    HashMap<String,String> point = path.get(j);
+
                     double lat = Double.parseDouble(point.get("lat"));
-                    double lon = Double.parseDouble(point.get("lng"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
 
-                    Toast.makeText(MapsActivity.this, (int) lat+"     "+lon ,Toast.LENGTH_SHORT).show();
-
-                    points.add(new LatLng(lat,lon));
+                    points.add(position);
                 }
+
+    /////////////////////////////
+                Log.i("reallog","ewsdc");
                 polylineOptions.addAll(points);
                 polylineOptions.width(10);
                 polylineOptions.color(Color.BLUE);

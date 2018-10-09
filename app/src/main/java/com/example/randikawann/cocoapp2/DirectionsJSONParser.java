@@ -44,7 +44,9 @@ public class DirectionsJSONParser {
                             HashMap<String, String> hm = new HashMap<String, String>();
                             hm.put("lat", Double.toString(((LatLng)list.get(l)).latitude) );
                             hm.put("lng", Double.toString(((LatLng)list.get(l)).longitude) );
+
                             path.add(hm);
+
                         }
                     }
                     routes.add(path);
