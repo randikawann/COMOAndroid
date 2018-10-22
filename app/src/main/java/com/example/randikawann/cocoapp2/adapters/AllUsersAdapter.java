@@ -1,4 +1,4 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.randikawann.cocoapp2.ProfileActivity;
+import com.example.randikawann.cocoapp2.R;
+import com.example.randikawann.cocoapp2.models.User;
 
 import java.util.List;
 
@@ -36,15 +40,15 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.ImageV
     public void onBindViewHolder(@NonNull ImageViewHolder holder , final int position) {
         //this is add value for the database
         User uploadCurrent = mAllusers.get(position);
-        holder.userName.setText(uploadCurrent.user_name);
-        holder.userStatus.setText(uploadCurrent.user_status);
+        holder.userName.setText(uploadCurrent.getUser_name());
+        holder.userStatus.setText(uploadCurrent.getUser_status());
 //        holder.userStatus.setText();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                String efszdx= mAllusers.get(position).user_name;
-                String selected_user_id= mAllusers.get(position).user_id;
+                String selected_user_id= mAllusers.get(position).getUser_id();
                 Intent profileIntent = new Intent(v.getContext(),ProfileActivity.class);
                 profileIntent.putExtra("user_id",selected_user_id);
                 mContext.startActivity(profileIntent);

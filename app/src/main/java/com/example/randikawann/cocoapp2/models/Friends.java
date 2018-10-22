@@ -1,6 +1,8 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.models;
 
-public class Friends extends User{
+import com.example.randikawann.cocoapp2.models.User;
+
+public class Friends extends User {
     String friends_id;
     String date;
     String friends_name;

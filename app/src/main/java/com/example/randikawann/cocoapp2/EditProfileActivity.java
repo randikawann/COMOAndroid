@@ -1,8 +1,6 @@
 package com.example.randikawann.cocoapp2;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,14 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.example.randikawann.cocoapp2.models.User;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -96,23 +93,32 @@ public class EditProfileActivity extends AppCompatActivity {
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
                 if(dataSnapshot.getValue()!=null){
                     try{
-                        userName = dataSnapshot.child("user_name").getValue().toString();
-                        userAge = dataSnapshot.child("user_age").getValue().toString();
-                        userGender = dataSnapshot.child("user_gender").getValue().toString();
-                        userStatus = dataSnapshot.child("user_status").getValue().toString();
-                        userimage = dataSnapshot.child("user_img").getValue().toString();
+
+//                        userName = dataSnapshot.child("user_name").getValue().toString();
+//                        userAge = dataSnapshot.child("user_age").getValue().toString();
+//                        userGender = dataSnapshot.child("user_gender").getValue().toString();
+//                        userStatus = dataSnapshot.child("user_status").getValue().toString();
+//                        userimage = dataSnapshot.child("user_img").getValue().toString();
 //                    String thumb_image = dataSnapshot.child("user_thumbImg").getValue().toString();
 
                     }catch (Exception e){
 //                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
                     }
-                    etUserName.setText(userName);
-                    etAge.setText(userAge);
-                    etStatus.setText(userStatus);
-                    spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
-
+                    etUserName.setText(user.getUser_name());
+                    etAge.setText(user.getUser_age());
+                    etStatus.setText(user.getUser_status());
+                    spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(user.getUser_gender()));
+//                    etAge.setText(userAge);
+//                    etStatus.setText(userStatus);
+//                    spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
+                    try {
+                        Glide.with(EditProfileActivity.this).load(user.getUser_image()).into(imgProfile);
+                    }catch(Exception e){
+                        System.out.print(e);
+                    }
                     //retreve image with picasso
 //                    Picasso.get().load(userimage).into(imgProfile);
 //                    imgProfile.setImageURI(Uri.parse(userimage));
@@ -153,7 +159,7 @@ public class EditProfileActivity extends AppCompatActivity {
             // start picker to get image for cropping and then use the image in cropping activity
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1,1)
+//                    .setAspectRatio(1,1)
                     .start(this);
         }
         //get crop image result
@@ -172,7 +178,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        String url = taskSnapshot.getStorage().getPath().toString();
+                        String url = taskSnapshot.getStorage().getPath();
                         Toast.makeText(EditProfileActivity.this,url,Toast.LENGTH_SHORT).show();
                         userReference.child("user_img").setValue(url);
                     }

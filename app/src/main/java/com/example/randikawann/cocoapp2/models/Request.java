@@ -1,4 +1,4 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.models;
 
 public class Request {
     String friends_id;

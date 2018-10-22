@@ -1,4 +1,4 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.randikawann.cocoapp2.R;
+import com.example.randikawann.cocoapp2.models.Friends;
 
 import java.util.List;
 
@@ -33,8 +36,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
     public void onBindViewHolder(@NonNull FriendsViewHolder holder , final int position) {
 
         Friends uploadCurrent = mAllFriends.get(position);
-        holder.userDate.setText(uploadCurrent.date);
-        holder.userName.setText(uploadCurrent.friends_name);
+        holder.userDate.setText(uploadCurrent.getDate());
+        holder.userName.setText(uploadCurrent.getFriends_name());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

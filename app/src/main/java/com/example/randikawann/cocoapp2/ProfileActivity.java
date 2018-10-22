@@ -1,27 +1,23 @@
 package com.example.randikawann.cocoapp2;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.icu.util.Calendar;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
+import com.example.randikawann.cocoapp2.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -31,15 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -50,8 +39,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvAge;
     private Button btsend_req;
     private Button btdecline_req;
-    private CircleImageView imgProfile;
-
+//    private CircleImageView imgProfile;
+    private de.hdodenhof.circleimageview.CircleImageView imgProfile;
     private String user_id;
     private String current_User_Id;
     private String userName;
@@ -81,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tvAge);
         btsend_req = (Button) findViewById(R.id.btsend_req);
         btdecline_req = (Button) findViewById(R.id.btdecline_req);
-        imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
+        imgProfile = findViewById(R.id.imgProfile);
         final ImageView imageView = findViewById(R.id.imageView);
 
 
@@ -149,16 +138,23 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
-                    userName = dataSnapshot.child("user_name").getValue().toString();
-                    userAge = dataSnapshot.child("user_age").getValue().toString();
-                    userGender = dataSnapshot.child("user_gender").getValue().toString();
-                    userStatus = dataSnapshot.child("user_status").getValue().toString();
-//                    userimage = dataSnapshot.child("user_img").getValue().toString();
+                    User user = dataSnapshot.getValue(User.class);
+//                    userName = dataSnapshot.child("user_name").getValue().toString();
 
-                    tvUserName.setText(userName);
-                    tvAge.setText(userAge);
-                    tvStatus.setText(userStatus);
-                    tvGender.setText(userGender);
+
+                    tvUserName.setText(user.getUser_name());
+                    tvAge.setText(user.getUser_age());
+                    tvStatus.setText(user.getUser_status());
+                    tvGender.setText(user.getUser_gender());
+
+
+                    try {
+                        Glide.with(ProfileActivity.this).load("gs://cocoapp2-4a7f4.appspot.com/profile_img/1c2iIh9iC2VQ14Mt05ut1MYGy153.jpeg").into(imgProfile);
+                        Log.d("glide",user.getUser_image());
+
+                    }catch(Exception e){
+                        Log.d("glide",e.toString());
+                    }
 
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
                         @Override

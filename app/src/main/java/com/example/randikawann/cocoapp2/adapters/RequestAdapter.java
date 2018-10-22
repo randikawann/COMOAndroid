@@ -1,4 +1,4 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.randikawann.cocoapp2.ProfileActivity;
+import com.example.randikawann.cocoapp2.R;
+import com.example.randikawann.cocoapp2.models.Request;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,10 +95,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
 
         Request uploadCurrent = mAllRequest.get(position);
-        holder.request_type.setText(uploadCurrent.request_type);
-        holder.userName.setText(uploadCurrent.friends_name);
+        holder.request_type.setText(uploadCurrent.getStatus());
+        holder.userName.setText(uploadCurrent.getFriends_name());
 
-        friends_user_id = uploadCurrent.friends_id;
+        friends_user_id = uploadCurrent.getFriends_id();
 
 
         mDialog = new Dialog(mContext);

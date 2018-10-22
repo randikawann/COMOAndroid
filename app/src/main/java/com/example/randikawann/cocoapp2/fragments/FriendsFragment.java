@@ -1,4 +1,4 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.fragments;
 
 
 import android.os.Bundle;
@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.randikawann.cocoapp2.models.Friends;
+import com.example.randikawann.cocoapp2.adapters.FriendsAdapter;
+import com.example.randikawann.cocoapp2.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

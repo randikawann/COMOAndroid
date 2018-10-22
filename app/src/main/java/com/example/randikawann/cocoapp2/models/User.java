@@ -1,11 +1,9 @@
-package com.example.randikawann.cocoapp2;
-
-import android.widget.Toast;
+package com.example.randikawann.cocoapp2.models;
 
 public class User {
     String user_id;
     String user_name;
-    String user_image;
+    private String user_img;
     String user_age;
     String user_gender;
     String user_status;
@@ -14,10 +12,10 @@ public class User {
     public User() {
     }
 
-    public User(String user_id , String user_name , String user_image , String user_age , String user_gender , String user_status) {
+    public User(String user_id , String user_name , String user_img , String user_age , String user_gender , String user_status) {
         this.user_id = user_id;
         this.user_name = user_name;
-        this.user_image = user_image;
+        this.user_img = user_img;
         this.user_age = user_age;
         this.user_gender = user_gender;
         this.user_status = user_status;
@@ -41,11 +39,11 @@ public class User {
     }
 
     public String getUser_image() {
-        return user_image;
+        return user_img;
     }
 
-    public void setUser_image(String user_image) {
-        this.user_image = user_image;
+    public void setUser_image(String user_img) {
+        this.user_img = user_img;
     }
 
     public String getUser_age() {

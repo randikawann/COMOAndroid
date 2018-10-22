@@ -1,11 +1,14 @@
-package com.example.randikawann.cocoapp2;
+package com.example.randikawann.cocoapp2.adapters;
 
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-class TabPageAdapter extends FragmentPagerAdapter{
+import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
+import com.example.randikawann.cocoapp2.fragments.FriendsFragment;
+import com.example.randikawann.cocoapp2.fragments.RequestFragment;
+
+public class TabPageAdapter extends FragmentPagerAdapter{
     public TabPageAdapter(FragmentManager fm) {
         super(fm);
     }

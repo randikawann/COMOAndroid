@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     //circle image view
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     //image cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     //picasso
@@ -41,6 +42,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
 //    glide dependencies
     implementation 'com.firebaseui:firebase-ui-storage:4.1.0'
