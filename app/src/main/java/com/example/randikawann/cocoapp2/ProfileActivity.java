@@ -74,8 +74,8 @@ public class ProfileActivity extends AppCompatActivity {
         final ImageView imageView = findViewById(R.id.imageView);
 
 
-        mAuth = FirebaseAuth.getInstance();
 
+        mAuth = FirebaseAuth.getInstance();
 
         current_User_Id = mAuth.getCurrentUser().getUid();
         //        this is for user accept task
