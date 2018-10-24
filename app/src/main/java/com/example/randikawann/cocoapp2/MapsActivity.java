@@ -94,21 +94,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng sydney = new LatLng(-34 , 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current_user_loc,15));
-        Thread thread = new Thread(){
-
-            public void run(){
-                try{
-                    sleep(2000);
-                }catch(Exception e){
-
-                }finally {
-
-                }
-            }
-        };
-        thread.start();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friend_loc,15));
+//        Thread thread = new Thread(){
+//
+//            public void run(){
+//                try{
+//                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current_user_loc,15));
+//                    sleep(10000);
+//                }catch(Exception e){
+//
+//                }finally {
+//
+//                }
+//            }
+//        };
+//        thread.start();
+
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(current_user_loc));
         //map rotate
 

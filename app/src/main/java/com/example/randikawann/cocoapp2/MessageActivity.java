@@ -15,6 +15,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.randikawann.cocoapp2.adapters.MessageAdapter;
+import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
 import com.example.randikawann.cocoapp2.models.Message;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;

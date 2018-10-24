@@ -1,6 +1,7 @@
 package com.example.randikawann.cocoapp2.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,17 +11,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.randikawann.cocoapp2.R;
+import com.example.randikawann.cocoapp2.models.Message;
+
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChatsFragment extends Fragment {
-
+    private List<Message> mAllmessages;
 
     public ChatsFragment() {
         // Required empty public constructor
+
     }
+
 
 
     @Override
