@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.randikawann.cocoapp2.GpsTracker;
+import com.example.randikawann.cocoapp2.MapsActivity;
 import com.example.randikawann.cocoapp2.R;
 import com.example.randikawann.cocoapp2.models.Nearby;
 

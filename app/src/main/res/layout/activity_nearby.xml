@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".NearbyActivity">
 
+    <include
+        layout="@layout/app_bar_layouts"
+        android:id="@+id/main_page_toolbar"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerView"

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NearbyActivity extends AppCompatActivity {
+    private android.support.v7.widget.Toolbar mainToolBar;
     private RecyclerView mRecyclerView;
     private NearbyAdapter mAdapter;
     private DatabaseReference gpsReference;
@@ -44,6 +45,12 @@ public class NearbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
+
+
+        mainToolBar = findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mainToolBar);
+        getSupportActionBar().setTitle("COMO Android");
+
 
         mRecyclerView = findViewById(R.id.mRecyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -67,13 +74,12 @@ public class NearbyActivity extends AppCompatActivity {
 //                    Toast.makeText(NearbyActivity.this,postSnapshot.getChildren().toString(),Toast.LENGTH_SHORT).show();
                     Nearby nearbyRetrieve = postSnapshot.getValue(Nearby.class);
                     double lat = nearbyRetrieve.getLatitute();
-
                     double lon = nearbyRetrieve.getLongitude();
 
 //                    Toast.makeText(NearbyActivity.this,"users value with near"+lat+" "+lon,Toast.LENGTH_SHORT).show();
                         // lag .01 = 1km, lag .001 = 100m
-                    if(current_lat - 0.001 <= lat && lat <= current_lat + 0.001){
-                        if(current_lon - 0.001 <= lon && lon <= current_lon + 0.001) {
+                    if(current_lat - 3.02 <= lat && lat <= current_lat + 3.02){
+                        if(current_lon - 3.02 <= lon && lon <= current_lon + 3.02) {
                             Nearby nearbywith = postSnapshot.getValue(Nearby.class);
                             mNearbyUser.add(nearbywith);
 

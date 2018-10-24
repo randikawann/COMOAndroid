@@ -57,8 +57,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
         final RequestViewHolder vHolder = new RequestViewHolder(v);
 
-        mDialog = new Dialog(mContext);
-        mDialog.setContentView(R.layout.dialog_request);
 
         requestReference = FirebaseDatabase.getInstance().getReference().child("friends_request");
         friendsReference = FirebaseDatabase.getInstance().getReference().child("friends");
@@ -194,7 +192,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     public class RequestViewHolder extends RecyclerView.ViewHolder {
         public TextView userName;
         public TextView request_type;
-        public TextView item_name;
 
         @SuppressLint("ResourceType")
         public RequestViewHolder(View itemView) {
@@ -202,7 +199,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
             userName = itemView.findViewById(R.id.friends_name_layout);
             request_type = itemView.findViewById(R.id.user_status_layout);
-            item_name = itemView.findViewById(R.id.tvItem_name);
         }
 
     }
