@@ -49,7 +49,8 @@ public class NearbyActivity extends AppCompatActivity {
 
         mainToolBar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mainToolBar);
-        getSupportActionBar().setTitle("COMO Android");
+//        getSupportActionBar().setTitle("Near Users");
+        getSupportActionBar().setSubtitle("Near Users");
 
 
         mRecyclerView = findViewById(R.id.mRecyclerView);
@@ -59,7 +60,7 @@ public class NearbyActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
         current_user_name =getIntent().getExtras().getString("current_user_name");
-        gpsLocation(current_user_name);
+//        gpsLocation(current_user_name);
 
         mNearbyUser = new ArrayList<>();
 
@@ -108,31 +109,31 @@ public class NearbyActivity extends AppCompatActivity {
 
     }
 
-    private void gpsLocation(String current_user_name) {
-        //        added current date
-        long date = System.currentTimeMillis();
-        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
-        dateString = sdf.format(date);
-
-        //        update gps location
-        gpsReference = FirebaseDatabase.getInstance().getReference().child("gpslocation");
-        ActivityCompat.requestPermissions(NearbyActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
-        GpsTracker gpsTracker = new GpsTracker(getApplicationContext());
-        Location location = gpsTracker.getLocation();
-        if(location !=null){
-            current_lat = location.getLatitude();
-            current_lon = location.getLongitude();
-//            Toast.makeText(NearbyActivity.this,"current value with near"+current_lat+" "+current_lon,Toast.LENGTH_SHORT).show();
-//            Toast.makeText(NearbyActivity.this,"Lat is " + current_lat,Toast.LENGTH_SHORT).show();
-            gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
-            gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
-            gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
-            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
-//            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
-
-        }else{
-//            Toast.makeText(NearbyActivity.this,"Location not Updated....",Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//    private void gpsLocation(String current_user_name) {
+//        //        added current date
+//        long date = System.currentTimeMillis();
+//        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
+//        dateString = sdf.format(date);
+//
+//        //        update gps location
+//        gpsReference = FirebaseDatabase.getInstance().getReference().child("gpslocation");
+//        ActivityCompat.requestPermissions(NearbyActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
+//        GpsTracker gpsTracker = new GpsTracker(getApplicationContext());
+//        Location location = gpsTracker.getLocation();
+//        if(location !=null){
+//            current_lat = location.getLatitude();
+//            current_lon = location.getLongitude();
+////            Toast.makeText(NearbyActivity.this,"current value with near"+current_lat+" "+current_lon,Toast.LENGTH_SHORT).show();
+////            Toast.makeText(NearbyActivity.this,"Lat is " + current_lat,Toast.LENGTH_SHORT).show();
+//            gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
+//            gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
+//            gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
+//            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
+////            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
+//
+//        }else{
+////            Toast.makeText(NearbyActivity.this,"Location not Updated....",Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 }

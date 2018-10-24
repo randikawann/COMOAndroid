@@ -134,8 +134,11 @@ public class MainActivity extends AppCompatActivity {
 
         //        added current date
         long date = System.currentTimeMillis();
-        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
+//        SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy.MM.dd - HH:mm:ss");
+        Log.i("intent",sdf.format(date));
         dateString = sdf.format(date);
+
 
         //        update gps location
         gpsReference = FirebaseDatabase.getInstance().getReference().child("gpslocation");
