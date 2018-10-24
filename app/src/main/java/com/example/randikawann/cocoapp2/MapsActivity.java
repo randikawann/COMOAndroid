@@ -2,6 +2,7 @@ package com.example.randikawann.cocoapp2;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -93,9 +94,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng sydney = new LatLng(-34 , 151);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
 
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(current_user_loc));
-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(current_user_loc,15));
+        Thread thread = new Thread(){
+
+            public void run(){
+                try{
+                    sleep(2000);
+                }catch(Exception e){
+
+                }finally {
+
+                }
+            }
+        };
+        thread.start();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(friend_loc,15));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(current_user_loc));
+        //map rotate
+
         // Zoom in, animating the camera.
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
