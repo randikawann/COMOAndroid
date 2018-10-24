@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             current_User_Id = mAuth.getCurrentUser().getUid();
             gpsLocation();
+            Log.i("intent","on create gps update");
         }catch (Exception e){}
 
         userReference = FirebaseDatabase.getInstance().getReference("users");
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                  * device has been shook.
                  */
                 handleShakeEvent(count);
+
             }
         });
 
@@ -173,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         }
         try{
             gpsLocation();
+            Log.i("intent","on start gps update");
 //            Toast.makeText(MainActivity.this,"current vlaue "+lat+" "+lon,Toast.LENGTH_SHORT).show();
         }catch(Exception e){
 //            Toast.makeText(MainActivity.this,"Exception for set gps location",Toast.LENGTH_SHORT).show();
@@ -210,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
     }
     //shaking
     private void handleShakeEvent(int count) {
+        Log.i("intent","shake gps update");
+        gpsLocation();
         Intent nearIntent = new Intent(MainActivity.this , NearbyActivity.class);
         nearIntent.putExtra("current_user_name" ,current_user_name);
         startActivity(nearIntent);

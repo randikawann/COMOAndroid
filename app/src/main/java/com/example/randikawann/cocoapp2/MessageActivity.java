@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -85,20 +86,22 @@ public class MessageActivity extends AppCompatActivity {
 
         readMessage(currentUserId,friendsId);
 
-        final String message = etMessagecontent.getText().toString();
+        imgbtsendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textfieldString = etMessagecontent.getText().toString();
+//                Log.i("intent","message 1 is "+textfieldString);
 
-        if(message==null){
-            imgbtsendMessage.setEnabled(false);
-        }else{
-            imgbtsendMessage.setEnabled(true);
-            imgbtsendMessage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sendMessage(currentUserId, friendsId, message);
-
+                if(!textfieldString.equals("")) {
+                    sendMessage(currentUserId , friendsId , textfieldString);
+                    etMessagecontent.setText("");
+                }else{
+                    Toast.makeText(MessageActivity.this,"Enter your Message",Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            }
+        });
+
+
 
 
     }
@@ -128,7 +131,7 @@ public class MessageActivity extends AppCompatActivity {
                     if(message.getReciever().equals(myid) && message.getSender().equals(userid) ||
                             message.getReciever().equals(userid) && message.getSender().equals(myid)  ){
                         mMessage.add(message);
-                        Log.i("intent","message is "+message.getReciever());
+//                        Log.i("intent","message is "+message.getReciever());
                     }
                     messageAdapter = new MessageAdapter(MessageActivity.this, mMessage);
                     recyclerViewMessage.setAdapter(messageAdapter);
