@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -111,6 +112,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message", message);
 
         reference.child("message").push().setValue(hashMap);
+        etMessagecontent.setText("");
     }
 
     private void readMessage(final String myid, final String userid){
@@ -126,6 +128,7 @@ public class MessageActivity extends AppCompatActivity {
                     if(message.getReciever().equals(myid) && message.getSender().equals(userid) ||
                             message.getReciever().equals(userid) && message.getSender().equals(myid)  ){
                         mMessage.add(message);
+                        Log.i("intent","message is "+message.getReciever());
                     }
                     messageAdapter = new MessageAdapter(MessageActivity.this, mMessage);
                     recyclerViewMessage.setAdapter(messageAdapter);
