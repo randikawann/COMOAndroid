@@ -148,12 +148,10 @@ public class ProfileActivity extends AppCompatActivity {
                     tvAge.setText(user.getUser_age());
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
-                    Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
                     try {
                         Log.d("profile","User Iamge ..............................................."+user.getUser_image());
 //                        Glide.with(ProfileActivity.this).load(userimage).into(imgProfile);
 //                        Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
-                        Log.d("profile","User Iamge ..............................................."+userimage);
 
                     }catch(Exception e){
                         Log.d("profile","......................................................"+e.toString());
