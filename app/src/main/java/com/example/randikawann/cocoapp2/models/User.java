@@ -1,12 +1,12 @@
 package com.example.randikawann.cocoapp2.models;
 
 public class User {
-    String user_id;
-    String user_name;
+    private String user_id;
+    private String user_name;
     private String user_img;
-    String user_age;
-    String user_gender;
-    String user_status;
+    private String user_age;
+    private String user_gender;
+    private String user_status;
 
 
     public User() {

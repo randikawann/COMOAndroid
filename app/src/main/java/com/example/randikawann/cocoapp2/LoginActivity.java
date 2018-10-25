@@ -1,6 +1,9 @@
 package com.example.randikawann.cocoapp2;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,9 +32,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button btVerify;
     private EditText etPhoneNum;
-    private EditText etVerifyCode;
-    private int btntype=0;
-    private TextView tvError;
+
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,41 +42,45 @@ public class LoginActivity extends AppCompatActivity {
 
         btVerify = findViewById(R.id.btVerify);
         etPhoneNum = findViewById(R.id.etphoneNum);
-        etVerifyCode = findViewById(R.id.etVerifyCode);
-        tvError = findViewById(R.id.tvError);
 
         mAuth = FirebaseAuth.getInstance();
 
+
+        mDialog = new Dialog(LoginActivity.this);
+        mDialog.setContentView(R.layout.dialog_login);
+        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
         btVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final EditText etMobile_code = mDialog.findViewById(R.id.etMobile_code);
+                Button btverify_code = mDialog.findViewById(R.id.btverify_code);
 
-                if(btntype==0) {
-                    etVerifyCode.setVisibility(View.INVISIBLE);
-//                    progressBar1.setVisibility(View.VISIBLE);
-//                    etPhoneNum.setVisibility(View.INVISIBLE);
-                    btVerify.setVisibility(View.VISIBLE);
+                String phoneNum = etPhoneNum.getText().toString();
 
-                    String phoneNum = etPhoneNum.getText().toString();
-
-                    PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             phoneNum,        // Phone number to verify
                             60,                 // Timeout duration
                             TimeUnit.SECONDS,   // Unit of timeout
                             LoginActivity.this,               // Activity (for callback binding)
                             mCallbacks);        // OnVerificationStateChangedCallbacks
-                }else{
-                    btVerify.setEnabled(true);
-                    etVerifyCode.setVisibility(View.VISIBLE);
-//                    progressBar1.setVisibility(View.INVISIBLE);
-                    String verificationCode = etVerifyCode.getText().toString();
 
-                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, verificationCode);
-                    signInWithPhoneAuthCredential(credential);
-                }
+                mDialog.show();
+                btverify_code.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String verificationCode = etMobile_code.getText().toString();
+
+                        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, verificationCode);
+                        signInWithPhoneAuthCredential(credential);
+
+                        mDialog.dismiss();
+                    }
+                });
+
             }
+
         });
         //onVerifi
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -84,8 +91,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                tvError.setText("There was some error in Verification");
-                tvError.setVisibility(View.VISIBLE);
+                Toast.makeText(LoginActivity.this,"There was some error in Verification",Toast.LENGTH_SHORT).show();
+//                tvError.setText("There was some error in Verification");
+//                tvError.setVisibility(View.VISIBLE);
 
             }
 
@@ -100,15 +108,6 @@ public class LoginActivity extends AppCompatActivity {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
-
-                btntype=1;
-                //etPhoneNum.setVisibility(View.INVISIBLE);
-                etVerifyCode.setVisibility(View.VISIBLE);
-                btVerify.setText("Verify Code");
-                btVerify.setEnabled(true);
-
-
-                // ...
             }
         };
     }
@@ -130,9 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
-                            tvError.setText("There was some error in login");
-                            tvError.setVisibility(View.VISIBLE);
-                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this,"There was some error in login",Toast.LENGTH_SHORT).show();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                             }

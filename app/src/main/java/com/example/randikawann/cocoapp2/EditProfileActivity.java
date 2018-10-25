@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -117,7 +118,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     try {
                         Glide.with(EditProfileActivity.this).load(user.getUser_image()).into(imgProfile);
                     }catch(Exception e){
-                        System.out.print(e);
+                        Log.i("editProfile","exception retrieve image");
                     }
                     //retreve image with picasso
 //                    Picasso.get().load(userimage).into(imgProfile);
@@ -128,7 +129,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(EditProfileActivity.this, "Retrieving data error",Toast.LENGTH_SHORT).show();
+                Log.i("editProfile","exception retrieve image2");
             }
         });
         imgProfile.setOnClickListener(new View.OnClickListener() {
@@ -152,14 +153,14 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
           if(requestCode==Gallery_pick && resultCode==RESULT_OK && data!=null && data.getData() !=null){
-            Uri imageuri = data.getData();
-            imgProfile.setImageURI(imageuri);
+//            Uri imageuri = data.getData();
+//            imgProfile.setImageURI(imageuri);
 //            Picasso.get().load(imageuri).into(imgProfile);
 
             // start picker to get image for cropping and then use the image in cropping activity
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
-//                    .setAspectRatio(1,1)
+                    .setAspectRatio(1,1)
                     .start(this);
         }
         //get crop image result
@@ -167,7 +168,6 @@ public class EditProfileActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-
                 String user_id = mAuth.getCurrentUser().getUid();
                 //save image in firebase storage
                 final StorageReference filePath;
@@ -178,9 +178,16 @@ public class EditProfileActivity extends AppCompatActivity {
                 filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        String url = taskSnapshot.getStorage().getPath();
-                        Toast.makeText(EditProfileActivity.this,url,Toast.LENGTH_SHORT).show();
-                        userReference.child("user_img").setValue(url);
+//                        String url = taskSnapshot.getStorage().getPath();
+                        String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+
+                        if(url!=null) {
+                            Log.i("editProfile" , url);
+//                        Toast.makeText(EditProfileActivity.this,url,Toast.LENGTH_SHORT).show();
+                            userReference.child("user_img").setValue(url);
+                        }else{
+                            Log.i("editProfile" , "url null");
+                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

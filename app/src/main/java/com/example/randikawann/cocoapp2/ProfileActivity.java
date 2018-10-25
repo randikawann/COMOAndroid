@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
@@ -139,21 +140,23 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()!=null){
                     User user = dataSnapshot.getValue(User.class);
-//                    userName = dataSnapshot.child("user_name").getValue().toString();
+
+                    userimage = dataSnapshot.child("user_img").getValue().toString();
 
 
                     tvUserName.setText(user.getUser_name());
                     tvAge.setText(user.getUser_age());
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
-
-
+                    Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
                     try {
-                        Glide.with(ProfileActivity.this).load("gs://cocoapp2-4a7f4.appspot.com/profile_img/1c2iIh9iC2VQ14Mt05ut1MYGy153.jpeg").into(imgProfile);
-                        Log.d("glide",user.getUser_image());
+                        Log.d("profile","User Iamge ..............................................."+user.getUser_image());
+//                        Glide.with(ProfileActivity.this).load(userimage).into(imgProfile);
+//                        Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
+                        Log.d("profile","User Iamge ..............................................."+userimage);
 
                     }catch(Exception e){
-                        Log.d("glide",e.toString());
+                        Log.d("profile","......................................................"+e.toString());
                     }
 
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
