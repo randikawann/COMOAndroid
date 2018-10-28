@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.randikawann.cocoapp2.MessageActivity;
 import com.example.randikawann.cocoapp2.R;
+import com.example.randikawann.cocoapp2.models.Chat;
 import com.example.randikawann.cocoapp2.models.Friends;
 import com.example.randikawann.cocoapp2.models.Message;
 
@@ -20,12 +21,12 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private Context mContext;
-    private List<Message> mAllMessage;
+    private List<Chat> mAllChat;
     View v;
 
-    public ChatAdapter(Context context , List<Message> allfriends) {
+    public ChatAdapter(Context context , List<Chat> allchat) {
         this.mContext = context;
-        this.mAllMessage = allfriends;
+        this.mAllChat = allchat;
 
     }
 
@@ -39,7 +40,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder , int position) {
-        final Message uploadCurrent = mAllMessage.get(position);
+        final Chat uploadCurrent = mAllChat.get(position);
         holder.usermessage.setText(uploadCurrent.getMessage());
         holder.userName.setText(uploadCurrent.getReciever_name());
 
@@ -47,7 +48,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public int getItemCount() {
-        return mAllMessage.size();
+        return mAllChat.size();
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {

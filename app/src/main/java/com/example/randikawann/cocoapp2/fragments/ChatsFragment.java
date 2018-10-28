@@ -19,6 +19,7 @@ import com.example.randikawann.cocoapp2.R;
 import com.example.randikawann.cocoapp2.adapters.ChatAdapter;
 import com.example.randikawann.cocoapp2.adapters.FriendsAdapter;
 import com.example.randikawann.cocoapp2.adapters.MessageAdapter;
+import com.example.randikawann.cocoapp2.models.Chat;
 import com.example.randikawann.cocoapp2.models.Friends;
 import com.example.randikawann.cocoapp2.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,13 +42,13 @@ import java.util.Set;
 public class ChatsFragment extends Fragment {
     // difficult to solve in this branch....
     //because of turn into another branch 19..
-    private List<Message> mAllmessages;
+    private List<Chat> mAllChat;
     private RecyclerView mRecyclerView;
-    private DatabaseReference messageReference;
+    private DatabaseReference chatReference;
     private String current_User_Id;
     private FirebaseAuth mAuth;
 
-    ChatAdapter chatAdapter;
+    private ChatAdapter chatAdapter;
 
 
     View v;
@@ -68,44 +69,26 @@ public class ChatsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mAllmessages = new ArrayList<>();
+        mAllChat = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
 
 //        Log.i("chat", "this fragment is work");
 
 
-        messageReference = FirebaseDatabase.getInstance().getReference().child("message");
-        messageReference.addValueEventListener(new ValueEventListener() {
+        chatReference= FirebaseDatabase.getInstance().getReference().child("chat").child(current_User_Id);
+        chatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mAllmessages.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Message message = snapshot.getValue(Message.class);
-                    mAllmessages.add(message);
-                    ////////////////////////////////
-                    List<String> mAllname;
-                    mAllname = new ArrayList<>();
-                    mAllname.add(message.getReciever_name());
-                    sort(mAllname);
-                }
 
-                chatAdapter = new ChatAdapter(getContext(), mAllmessages);
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Chat chatRetrieve = postSnapshot.getValue(Chat.class);
+                    mAllChat.add(chatRetrieve);
+
+                }
+                chatAdapter = new ChatAdapter(getContext(), mAllChat);
                 mRecyclerView.setAdapter(chatAdapter);
-            }
-
-            private void sort(List<String> reciever_name) {
-                String temp = null;
-
-                for(int j=0;j<reciever_name.size();j++) {
-                    for(int i = 0; i<reciever_name.size()-1;i++) {
-                        if(reciever_name.get(i).compareTo(reciever_name.get(i + 1))<0) {
-//                            temp = reciever_name.get(i);
-//                            array[i] = array[i+1];
-//                            array[i+1] = temp;
-                        }
-                    }
-                }
             }
 
             @Override

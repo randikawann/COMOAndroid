@@ -150,6 +150,7 @@ public class ProfileActivity extends AppCompatActivity {
                     tvGender.setText(user.getUser_gender());
                     try {
                         Log.d("profile","User Iamge ..............................................."+user.getUser_image());
+
 //                        Glide.with(ProfileActivity.this).load(userimage).into(imgProfile);
 //                        Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
 
@@ -208,6 +209,7 @@ public class ProfileActivity extends AppCompatActivity {
                     //retreve image with picasso
 //                    Picasso.get().load(userimage).into(imgProfile);
 //                    imgProfile.setImageURI(Uri.parse(userimage));
+//                    Picasso.with(ProfileActivity.this).load(userimage).into(imgProfile);
                 }
             }
 

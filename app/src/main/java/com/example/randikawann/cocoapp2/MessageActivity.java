@@ -17,6 +17,7 @@ import android.widget.Toolbar;
 import com.example.randikawann.cocoapp2.adapters.MessageAdapter;
 import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
 import com.example.randikawann.cocoapp2.models.Message;
+import com.example.randikawann.cocoapp2.models.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +50,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private FirebaseUser currentUser;
     DatabaseReference messageReference;
+    DatabaseReference userReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,6 @@ public class MessageActivity extends AppCompatActivity {
 
         currentUserId = mAuth.getCurrentUser().getUid();
 
-
         tvfriendsName.setText(friendsName);
 
         readMessage(currentUserId,friendsId);
@@ -107,9 +108,33 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    public void sendMessage(String sender, String receiver,String receiverName, String message){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    public void sendMessage(String sender, String receiver, final String receiverName, final String message){
 
+        String userName = null;
+
+//        userReference = FirebaseDatabase.getInstance().getReference().child("user").child(currentUserId);
+//        userReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                userName[0] = dataSnapshot.child("user_name").getValue().toString();
+//                Log.i("message", "message user name "+ userName[0]);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+        DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference().child("chat").child(currentUserId).child(friendsId);
+        DatabaseReference chatReference1 = FirebaseDatabase.getInstance().getReference().child("chat").child(friendsId).child(currentUserId);
+        chatReference.child("reciever_name").setValue(receiverName);
+        chatReference.child("message").setValue(message);
+
+        chatReference1.child("reciever_name").setValue(userName);
+        chatReference1.child("message").setValue(message);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("reciever", receiver);

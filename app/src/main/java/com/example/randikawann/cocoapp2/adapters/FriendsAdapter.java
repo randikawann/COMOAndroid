@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.randikawann.cocoapp2.MessageActivity;
 import com.example.randikawann.cocoapp2.R;
 import com.example.randikawann.cocoapp2.models.Friends;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
