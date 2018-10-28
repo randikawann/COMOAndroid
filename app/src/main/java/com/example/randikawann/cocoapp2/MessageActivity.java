@@ -112,6 +112,7 @@ public class MessageActivity extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
+        hashMap.put("reciever_name",);
         hashMap.put("reciever", receiver);
         hashMap.put("message", message);
 

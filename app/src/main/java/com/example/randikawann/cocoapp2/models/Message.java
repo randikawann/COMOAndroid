@@ -1,6 +1,7 @@
 package com.example.randikawann.cocoapp2.models;
 
 public class Message {
+
     private String sender;
     private String reciever;
     private String message;
