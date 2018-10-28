@@ -94,7 +94,7 @@ public class MessageActivity extends AppCompatActivity {
 //                Log.i("intent","message 1 is "+textfieldString);
 
                 if(!textfieldString.equals("")) {
-                    sendMessage(currentUserId , friendsId , textfieldString);
+                    sendMessage(currentUserId , friendsId ,friendsName, textfieldString);
                     etMessagecontent.setText("");
                 }else{
                     Toast.makeText(MessageActivity.this,"Enter your Message",Toast.LENGTH_SHORT).show();
@@ -107,13 +107,13 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    public void sendMessage(String sender, String receiver, String message){
+    public void sendMessage(String sender, String receiver,String receiverName, String message){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
-        hashMap.put("reciever_name",);
         hashMap.put("reciever", receiver);
+        hashMap.put("reciever_name",receiverName);
         hashMap.put("message", message);
 
         reference.child("message").push().setValue(hashMap);
