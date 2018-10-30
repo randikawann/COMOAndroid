@@ -1,25 +1,53 @@
 package com.example.randikawann.cocoapp2.models;
 
-public class User {
+public class User{
     private String user_id;
     private String user_name;
     private String user_img;
+    private String user_thum_img;
     private String user_age;
     private String user_gender;
     private String user_status;
+    private String device_token;
 
 
     public User() {
     }
 
-    public User(String user_id , String user_name , String user_img , String user_age , String user_gender , String user_status) {
+    public User(String user_id , String user_name , String user_img , String user_age ,String user_thum_img, String user_gender , String user_status,String device_token) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_img = user_img;
+        this.user_thum_img = user_thum_img;
         this.user_age = user_age;
         this.user_gender = user_gender;
         this.user_status = user_status;
+        this.device_token = device_token;
 
+    }
+
+    public String getUser_img() {
+        return user_img;
+    }
+
+    public void setUser_img(String user_img) {
+        this.user_img = user_img;
+    }
+
+    public String getUser_thum_img() {
+        return user_thum_img;
+    }
+
+    public void setUser_thum_img(String user_thum_img) {
+        this.user_thum_img = user_thum_img;
+    }
+
+    public String getDevice_token() {
+        return device_token;
+    }
+
+    public void setDevice_token(String device_token) {
+        this.device_token = device_token;
     }
 
     public String getUser_id() {

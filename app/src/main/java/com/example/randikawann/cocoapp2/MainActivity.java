@@ -4,6 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -21,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.randikawann.cocoapp2.adapters.TabPageAdapter;
+import com.example.randikawann.cocoapp2.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference gpsReference;
     private DatabaseReference userReference;
 
+
+
+
     @SuppressLint("RestrictedApi")
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     @Override
@@ -60,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        Log.i("maintv","Execuite quary is main ");
         textView = findViewById(R.id.text);
 
         mainToolBar = findViewById(R.id.main_page_toolbar);
@@ -74,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         myViewPager.setAdapter(myTabPageAdapter);
         myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         myTabLayout.setupWithViewPager(myViewPager);
+
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -92,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 if(dataSnapshot.getValue()!=null){
                     try{
                         current_user_name = dataSnapshot.child(current_User_Id).child("user_name").getValue().toString();
+                        User userRetrieve = dataSnapshot.getValue(User.class);
+                        DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this);
+                        dbHelper.addToCart(userRetrieve);
 
                     }catch (Exception e){
 //                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
@@ -128,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+
 
     private void gpsLocation() {
 
@@ -186,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -204,6 +223,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.allUsers:{
                 Intent allUsersIntent = new Intent(MainActivity.this, AllUsersActivity.class);
                 startActivity(allUsersIntent);
+                break;
+            }
+            case R.id.viewdatabase:{
+                Intent viewdb = new Intent(MainActivity.this, ViewDB.class);
+                startActivity(viewdb);
                 break;
             }
             case R.id.logout:{

@@ -17,6 +17,12 @@
 
 
     <item
+        android:id="@+id/viewdatabase"
+        android:orderInCategory="100"
+        android:title="viewDB"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/logout"
         android:orderInCategory="100"
         android:title="@string/logout"
