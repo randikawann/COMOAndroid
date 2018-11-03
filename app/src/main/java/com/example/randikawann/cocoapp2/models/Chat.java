@@ -1,24 +1,24 @@
 package com.example.randikawann.cocoapp2.models;
 
 public class Chat {
-    String reciever_name;
+    String friends_id;
     String message;
 
-    Chat(){
+    Chat() {
 
     }
 
-    public Chat(String reciever_name , String message) {
-        this.reciever_name = reciever_name;
+    public Chat(String friends_id , String message) {
+        this.friends_id = friends_id;
         this.message = message;
     }
 
-    public String getReciever_name() {
-        return reciever_name;
+    public String getFriends_id() {
+        return friends_id;
     }
 
-    public void setReciever_name(String reciever_name) {
-        this.reciever_name = reciever_name;
+    public void setFriends_id(String friends_id) {
+        this.friends_id = friends_id;
     }
 
     public String getMessage() {

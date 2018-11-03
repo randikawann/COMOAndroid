@@ -51,7 +51,7 @@ public class RequestFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        mAllrequest = new ArrayList<Request>();
+        mAllrequest = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         try {
             current_User_Id = mAuth.getCurrentUser().getUid();

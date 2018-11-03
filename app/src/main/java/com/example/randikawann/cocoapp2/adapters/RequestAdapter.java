@@ -3,6 +3,7 @@ package com.example.randikawann.cocoapp2.adapters;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -26,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
     private Context mContext;
@@ -68,21 +71,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         SimpleDateFormat sdf= new SimpleDateFormat("MMM dd yyyy");
         dateString = sdf.format(date);
 
-        userReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()!=null){
-                    current_user_name = dataSnapshot.child(current_user_id).child("user_name").getValue().toString();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         return new RequestAdapter.RequestViewHolder(v);
 
 //        dialog initialize
@@ -94,10 +82,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
         Request uploadCurrent = mAllRequest.get(position);
         holder.request_type.setText(uploadCurrent.getStatus());
-        holder.userName.setText(uploadCurrent.getFriends_name());
-
         friends_user_id = uploadCurrent.getFriends_id();
+        final SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(friends_user_id, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferencesusers = mContext.getSharedPreferences(current_user_id, Context.MODE_PRIVATE);
 
+        String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+        holder.userName.setText(user_name);
 
         mDialog = new Dialog(mContext);
         mDialog.setContentView(R.layout.dialog_request);
@@ -113,11 +103,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
                 Button btdecline_req = mDialog.findViewById(R.id.btdecline_req);
                 ImageView friends_img = mDialog.findViewById(R.id.friends_img);
 
-                String status=mAllRequest.get(holder.getAdapterPosition()).getStatus();
-                tvItem_name.setText(mAllRequest.get(holder.getAdapterPosition()).getFriends_name());
-                tvrequest_type.setText(mAllRequest.get(holder.getAdapterPosition()).getStatus());
 
-                final ProfileActivity profileintent =new ProfileActivity();
+                String all_friends_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
+                SharedPreferences sharedPreferencesAllusers = mContext.getSharedPreferences(all_friends_id, Context.MODE_PRIVATE);
+                current_user_name = sharedPreferencesAllusers.getString("user_name", DEFAULT);
+                String status = sharedPreferencesAllusers.getString("user_status", DEFAULT);
+
+                tvItem_name.setText(current_user_name);
+                tvrequest_type.setText(status);
 
                 if(status.equals("send")){
                     btsend_req.setText("Cancel Friends Request");
@@ -141,15 +134,14 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
                         @Override
                         public void onClick(View v) {
                             friends_user_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
-                            friends_user_name = mAllRequest.get(holder.getAdapterPosition()).getFriends_name();
+                            friends_user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+                            current_user_name = sharedPreferencesusers.getString("user_name", DEFAULT);
 
                             requestReference.child(friends_user_id).child(current_user_id).removeValue();
                             requestReference.child(current_user_id).child(friends_user_id).removeValue();
 
                             friendsReference.child(current_user_id).child(friends_user_id).child("friends_id").setValue(friends_user_id);
                             friendsReference.child(friends_user_id).child(current_user_id).child("friends_id").setValue(current_user_id);
-                            friendsReference.child(current_user_id).child(friends_user_id).child("friends_name").setValue(friends_user_name);
-                            friendsReference.child(friends_user_id).child(current_user_id).child("friends_name").setValue(current_user_name);
                             friendsReference.child(current_user_id).child(friends_user_id).child("date").setValue(dateString);
                             friendsReference.child(friends_user_id).child(current_user_id).child("date").setValue(dateString);
 

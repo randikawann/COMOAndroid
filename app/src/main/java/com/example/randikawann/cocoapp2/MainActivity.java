@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.randikawann.cocoapp2.adapters.TabPageAdapter;
+import com.example.randikawann.cocoapp2.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -85,10 +87,14 @@ public class MainActivity extends AppCompatActivity {
             Log.i("intent","on create gps update");
         }catch (Exception e){}
 
+
+//        sharedprefer();
         userReference = FirebaseDatabase.getInstance().getReference("users");
+        setDataPrefe();
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 if(dataSnapshot.getValue()!=null){
                     try{
                         current_user_name = dataSnapshot.child(current_User_Id).child("user_name").getValue().toString();
@@ -98,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+
             }
 
             @Override
@@ -128,6 +135,43 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    private void setDataPrefe() {
+        userReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
+
+                    User userRetrieve = postSnapshot.getValue(User.class);
+
+                    String userID = userRetrieve.getUser_id();
+                    SharedPreferences sharedPreferences = getSharedPreferences(userID,Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor= sharedPreferences.edit();
+                    editor.putString("user_name", userRetrieve.getUser_name());
+                    editor.putString("user_img", userRetrieve.getUser_image());
+                    editor.putString("user_age", userRetrieve.getUser_image());
+                    editor.putString("user_gender", userRetrieve.getUser_gender());
+                    editor.putString("user_status", userRetrieve.getUser_status());
+                    editor.putString("user_thumbImg", userRetrieve.getUser_thumbImg());
+                    editor.putString("device_token", userRetrieve.getDevice_token());
+//
+//                    editor.commit();
+                    editor.apply();
+
+                    Log.i("maintbfgdf","data aded to value "+userID);
+//                    Log.i("main","userNmae"+userRetrieve.getUser_name());
+
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private void gpsLocation() {
 
@@ -149,10 +193,10 @@ public class MainActivity extends AppCompatActivity {
             lat = location.getLatitude();
             lon = location.getLongitude();
 //            Toast.makeText(MainActivity.this,"Lat is " + lat,Toast.LENGTH_SHORT).show();
-            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
             gpsReference.child(current_User_Id).child("latitute").setValue(lat);
             gpsReference.child(current_User_Id).child("longitude").setValue(lon);
             gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
+            gpsReference.child(current_User_Id).child("user_id").setValue(current_User_Id);
 //            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
 
         }else{
@@ -220,7 +264,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i("intent","shake gps update");
         gpsLocation();
         Intent nearIntent = new Intent(MainActivity.this , NearbyActivity.class);
-        nearIntent.putExtra("current_user_name" ,current_user_name);
         startActivity(nearIntent);
 
     }

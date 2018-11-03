@@ -10,20 +10,11 @@ public class Message {
     public Message() {
 
     }
-    public Message(String sender , String reciever ,String reciever_name, String message) {
+    public Message(String sender , String reciever , String message) {
         this.sender = sender;
         this.reciever = reciever;
         this.message = message;
-        this.reciever_name = reciever_name;
-    }
-
-    public String getReciever_name() {
-        return reciever_name;
-    }
-
-    public void setReciever_name(String reciever_name) {
-        this.reciever_name = reciever_name;
-    }
+        }
 
     public String getSender() {
         return sender;

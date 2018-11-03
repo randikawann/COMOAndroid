@@ -1,5 +1,7 @@
 package com.example.randikawann.cocoapp2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
 
 public class MessageActivity extends AppCompatActivity {
     private TextView tvfriendsName;
@@ -77,14 +81,18 @@ public class MessageActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewMessage.setLayoutManager(linearLayoutManager);
 
-        friendsName = getIntent().getExtras().getString("friends_name");
         friendsId = getIntent().getExtras().getString("friends_id");
+
+        //SharedPreferences
+        SharedPreferences sharedPreferencesfriends = getSharedPreferences(friendsId, Context.MODE_PRIVATE);
+        String friends_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+
 
         mAuth = FirebaseAuth.getInstance();
 
         currentUserId = mAuth.getCurrentUser().getUid();
 
-        tvfriendsName.setText(friendsName);
+        tvfriendsName.setText(friends_name);
 
         readMessage(currentUserId,friendsId);
 
@@ -92,10 +100,9 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String textfieldString = etMessagecontent.getText().toString();
-//                Log.i("intent","message 1 is "+textfieldString);
 
                 if(!textfieldString.equals("")) {
-                    sendMessage(currentUserId , friendsId ,friendsName, textfieldString);
+                    sendMessage(currentUserId , friendsId , textfieldString);
                     etMessagecontent.setText("");
                 }else{
                     Toast.makeText(MessageActivity.this,"Enter your Message",Toast.LENGTH_SHORT).show();
@@ -108,37 +115,20 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    public void sendMessage(String sender, String receiver, final String receiverName, final String message){
+    public void sendMessage(String sender, String receiver, final String message){
 
-        String userName = null;
-
-//        userReference = FirebaseDatabase.getInstance().getReference().child("user").child(currentUserId);
-//        userReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                userName[0] = dataSnapshot.child("user_name").getValue().toString();
-//                Log.i("message", "message user name "+ userName[0]);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
         DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference().child("chat").child(currentUserId).child(friendsId);
         DatabaseReference chatReference1 = FirebaseDatabase.getInstance().getReference().child("chat").child(friendsId).child(currentUserId);
-        chatReference.child("reciever_name").setValue(receiverName);
+        chatReference.child("friends_id").setValue(friendsId);
         chatReference.child("message").setValue(message);
 
-        chatReference1.child("reciever_name").setValue(userName);
+        chatReference1.child("friends_id").setValue(currentUserId);
         chatReference1.child("message").setValue(message);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("reciever", receiver);
-        hashMap.put("reciever_name",receiverName);
         hashMap.put("message", message);
 
         reference.child("message").push().setValue(hashMap);

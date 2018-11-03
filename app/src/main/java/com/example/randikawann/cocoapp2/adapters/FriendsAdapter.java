@@ -3,6 +3,7 @@ package com.example.randikawann.cocoapp2.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +18,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
+
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
     private Context mContext;
     private List<Friends> mAllFriends;
     View v;
-
+    private String friends_user_id;
     public FriendsAdapter(Context context , List<Friends> allfriends) {
         this.mContext = context;
         this.mAllFriends = allfriends;
@@ -40,15 +43,18 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
     public void onBindViewHolder(@NonNull final FriendsViewHolder holder , final int position) {
 
         final Friends uploadCurrent = mAllFriends.get(position);
+
+        friends_user_id = uploadCurrent.getFriends_id();
+        final SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(friends_user_id, Context.MODE_PRIVATE);
+        String friends_name = sharedPreferencesfriends.getString("user_name", DEFAULT);;
         holder.userDate.setText(uploadCurrent.getDate());
-        holder.userName.setText(uploadCurrent.getFriends_name());
+        holder.userName.setText(friends_name);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent messageIntent = new Intent(v.getContext(), MessageActivity.class);
                 messageIntent.putExtra("friends_id",uploadCurrent.getFriends_id());
-                messageIntent.putExtra("friends_name",uploadCurrent.getFriends_name());
                 mContext.startActivity(messageIntent);
 
             }

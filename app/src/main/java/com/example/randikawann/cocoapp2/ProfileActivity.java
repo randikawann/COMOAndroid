@@ -1,7 +1,9 @@
 package com.example.randikawann.cocoapp2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,7 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference requestReference;
     private DatabaseReference friendsReference;
 
-    private String CURRENT_STATE="not_friends"; // send=1, recieve=2, norequest=0;
+    private String CURRENT_STATE="not_friends";
+    public static final String DEFAULT = "N/A";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
         btdecline_req = (Button) findViewById(R.id.btdecline_req);
         imgProfile = findViewById(R.id.imgProfile);
         final ImageView imageView = findViewById(R.id.imageView);
-
-
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -113,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                //friends details not recieving...
             }
         });
 
@@ -149,7 +150,6 @@ public class ProfileActivity extends AppCompatActivity {
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
                     try {
-                        Log.d("profile","User Iamge ..............................................."+user.getUser_image());
 
 //                        Glide.with(ProfileActivity.this).load(userimage).into(imgProfile);
 //                        Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
@@ -157,6 +157,11 @@ public class ProfileActivity extends AppCompatActivity {
                     }catch(Exception e){
                         Log.d("profile","......................................................"+e.toString());
                     }
+
+                    //sample for shared prefe
+                    SharedPreferences sharedPreferences = getSharedPreferences(current_User_Id, Context.MODE_PRIVATE);
+//                    String user_name = sharedPreferences.getString("user_name", DEFAULT);
+//                    Log.i("maintbfgdf", "User Name in profile "+user_name);
 
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -248,6 +253,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public void declinefriendsreq() {
         requestReference.child(user_id).child(current_User_Id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

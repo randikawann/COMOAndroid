@@ -40,7 +40,7 @@ public class FriendsFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.fragment_friends,container,false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.friendsrecycler);
+        mRecyclerView = v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

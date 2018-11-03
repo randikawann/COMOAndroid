@@ -3,6 +3,7 @@ package com.example.randikawann.cocoapp2.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,11 +19,14 @@ import com.example.randikawann.cocoapp2.models.Message;
 
 import java.util.List;
 
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
+
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private Context mContext;
     private List<Chat> mAllChat;
     View v;
+    String friends_user_id;
 
     public ChatAdapter(Context context , List<Chat> allchat) {
         this.mContext = context;
@@ -41,8 +45,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder , int position) {
         final Chat uploadCurrent = mAllChat.get(position);
+
+        friends_user_id = uploadCurrent.getFriends_id();
+        SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(friends_user_id, Context.MODE_PRIVATE);
+        String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
         holder.usermessage.setText(uploadCurrent.getMessage());
-        holder.userName.setText(uploadCurrent.getReciever_name());
+        holder.userName.setText(user_name);
 
     }
 

@@ -60,6 +60,8 @@ public class NearbyActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
+
+        //Shared Preference
         current_user_name =getIntent().getExtras().getString("current_user_name");
         gpsLocation(current_user_name);
 
@@ -130,7 +132,7 @@ public class NearbyActivity extends AppCompatActivity {
             gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
             gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
             gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
-            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
+            gpsReference.child(current_User_Id).child("user_id").setValue(current_User_Id);
 //            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
 
         }else{

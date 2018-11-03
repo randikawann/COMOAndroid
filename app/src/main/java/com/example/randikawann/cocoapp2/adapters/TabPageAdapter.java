@@ -18,11 +18,14 @@ public class TabPageAdapter extends FragmentPagerAdapter{
         switch (position){
 
             case 0:
-                return new RequestFragment();
+                RequestFragment requestFragment = new RequestFragment();
+                return requestFragment;
             case 1:
-                return new ChatsFragment();
+                ChatsFragment chatsFragment = new ChatsFragment();
+                return chatsFragment;
             case 2:
-                return new FriendsFragment();
+                FriendsFragment friendsFragment = new FriendsFragment();
+                return friendsFragment;
             default:
                 return null;
         }
