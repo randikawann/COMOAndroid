@@ -4,7 +4,6 @@ public class Message {
 
     private String sender;
     private String reciever;
-    private String reciever_name;
     private String message;
 
     public Message() {

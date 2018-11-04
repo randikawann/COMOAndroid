@@ -18,12 +18,11 @@ public class TabPageAdapter extends FragmentPagerAdapter{
     private FragmentManager mfragmentManager;
     private Context mContext;
 
-    public TabPageAdapter(FragmentManager fm, Context context) {
+    public TabPageAdapter(FragmentManager fm) {
 
         super(fm);
         // for refreshing fragment
         mfragmentManager = fm;
-        mContext = context;
 
     }
 
