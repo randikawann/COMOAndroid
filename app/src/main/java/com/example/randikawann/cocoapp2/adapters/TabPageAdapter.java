@@ -1,16 +1,30 @@
 package com.example.randikawann.cocoapp2.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.randikawann.cocoapp2.MainActivity;
 import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
 import com.example.randikawann.cocoapp2.fragments.FriendsFragment;
 import com.example.randikawann.cocoapp2.fragments.RequestFragment;
 
+import java.util.Map;
+
 public class TabPageAdapter extends FragmentPagerAdapter{
-    public TabPageAdapter(FragmentManager fm) {
+
+    private Map<Integer, String> mFragmentTags;
+    private FragmentManager mfragmentManager;
+    private Context mContext;
+
+    public TabPageAdapter(FragmentManager fm, Context context) {
+
         super(fm);
+        // for refreshing fragment
+        mfragmentManager = fm;
+        mContext = context;
+
     }
 
     @Override
@@ -18,11 +32,17 @@ public class TabPageAdapter extends FragmentPagerAdapter{
         switch (position){
 
             case 0:
-                return new RequestFragment();
+                MainActivity mainActivity = new MainActivity();
+                RequestFragment requestFragment = new RequestFragment();
+                return requestFragment;
             case 1:
-                return new ChatsFragment();
+                MainActivity mainActivity1 = new MainActivity();
+                ChatsFragment chatsFragment = new ChatsFragment();
+                return chatsFragment;
             case 2:
-                return new FriendsFragment();
+                MainActivity mainActivity2 = new MainActivity();
+                FriendsFragment friendsFragment = new FriendsFragment();
+                return friendsFragment;
             default:
                 return null;
         }

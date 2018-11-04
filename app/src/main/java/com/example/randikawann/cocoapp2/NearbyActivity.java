@@ -1,6 +1,8 @@
 package com.example.randikawann.cocoapp2;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
 
 public class NearbyActivity extends AppCompatActivity {
     private android.support.v7.widget.Toolbar mainToolBar;
@@ -60,7 +64,10 @@ public class NearbyActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
-        current_user_name =getIntent().getExtras().getString("current_user_name");
+
+        //Shared Preference
+        SharedPreferences sharedPreferencescurrentuser = getSharedPreferences(current_User_Id, Context.MODE_PRIVATE);
+        String current_user_name = sharedPreferencescurrentuser.getString("user_name", DEFAULT);
         gpsLocation(current_user_name);
 
         mNearbyUser = new ArrayList<>();
@@ -122,6 +129,7 @@ public class NearbyActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(NearbyActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         GpsTracker gpsTracker = new GpsTracker(getApplicationContext());
         Location location = gpsTracker.getLocation();
+
         if(location !=null){
             current_lat = location.getLatitude();
             current_lon = location.getLongitude();
@@ -130,7 +138,7 @@ public class NearbyActivity extends AppCompatActivity {
             gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
             gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
             gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
-            gpsReference.child(current_User_Id).child("user_name").setValue(current_user_name);
+            gpsReference.child(current_User_Id).child("user_id").setValue(current_User_Id);
 //            Toast.makeText(MainActivity.this,"Location Updated",Toast.LENGTH_SHORT).show();
 
         }else{

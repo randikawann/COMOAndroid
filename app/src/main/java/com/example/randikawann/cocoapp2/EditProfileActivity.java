@@ -96,18 +96,6 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if(dataSnapshot.getValue()!=null){
-                    try{
-
-//                        userName = dataSnapshot.child("user_name").getValue().toString();
-//                        userAge = dataSnapshot.child("user_age").getValue().toString();
-//                        userGender = dataSnapshot.child("user_gender").getValue().toString();
-//                        userStatus = dataSnapshot.child("user_status").getValue().toString();
-//                        userimage = dataSnapshot.child("user_img").getValue().toString();
-//                    String thumb_image = dataSnapshot.child("user_thumbImg").getValue().toString();
-
-                    }catch (Exception e){
-//                        Toast.makeText(EditProfileActivity.this,"exception",Toast.LENGTH_SHORT).show();
-                    }
                     etUserName.setText(user.getUser_name());
                     etAge.setText(user.getUser_age());
                     etStatus.setText(user.getUser_status());

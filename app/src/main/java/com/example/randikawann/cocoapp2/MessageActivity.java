@@ -1,5 +1,7 @@
 package com.example.randikawann.cocoapp2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.Toolbar;
 import com.example.randikawann.cocoapp2.adapters.MessageAdapter;
 import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
 import com.example.randikawann.cocoapp2.models.Message;
+import com.example.randikawann.cocoapp2.models.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
 
 public class MessageActivity extends AppCompatActivity {
     private TextView tvfriendsName;
@@ -49,6 +54,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private FirebaseUser currentUser;
     DatabaseReference messageReference;
+    DatabaseReference userReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +81,18 @@ public class MessageActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewMessage.setLayoutManager(linearLayoutManager);
 
-        friendsName = getIntent().getExtras().getString("friends_name");
         friendsId = getIntent().getExtras().getString("friends_id");
+
+        //SharedPreferences
+        SharedPreferences sharedPreferencesfriends = getSharedPreferences(friendsId, Context.MODE_PRIVATE);
+        String friends_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+
 
         mAuth = FirebaseAuth.getInstance();
 
         currentUserId = mAuth.getCurrentUser().getUid();
 
-
-        tvfriendsName.setText(friendsName);
+        tvfriendsName.setText(friends_name);
 
         readMessage(currentUserId,friendsId);
 
@@ -91,7 +100,6 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String textfieldString = etMessagecontent.getText().toString();
-//                Log.i("intent","message 1 is "+textfieldString);
 
                 if(!textfieldString.equals("")) {
                     sendMessage(currentUserId , friendsId , textfieldString);
@@ -107,9 +115,17 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    public void sendMessage(String sender, String receiver, String message){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    public void sendMessage(String sender, String receiver, final String message){
 
+        DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference().child("chat").child(currentUserId).child(friendsId);
+        DatabaseReference chatReference1 = FirebaseDatabase.getInstance().getReference().child("chat").child(friendsId).child(currentUserId);
+        chatReference.child("friends_id").setValue(friendsId);
+        chatReference.child("message").setValue(message);
+
+        chatReference1.child("friends_id").setValue(currentUserId);
+        chatReference1.child("message").setValue(message);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("reciever", receiver);

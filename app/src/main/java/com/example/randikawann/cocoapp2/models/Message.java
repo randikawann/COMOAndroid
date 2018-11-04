@@ -1,8 +1,10 @@
 package com.example.randikawann.cocoapp2.models;
 
 public class Message {
+
     private String sender;
     private String reciever;
+    private String reciever_name;
     private String message;
 
     public Message() {
@@ -12,7 +14,7 @@ public class Message {
         this.sender = sender;
         this.reciever = reciever;
         this.message = message;
-    }
+        }
 
     public String getSender() {
         return sender;

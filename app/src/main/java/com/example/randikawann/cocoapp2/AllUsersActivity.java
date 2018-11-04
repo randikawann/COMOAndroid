@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.randikawann.cocoapp2.adapters.AllUsersAdapter;
 import com.example.randikawann.cocoapp2.models.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +27,9 @@ public class AllUsersActivity extends AppCompatActivity {
     private AllUsersAdapter mAdapter;
     private DatabaseReference mDatabaseRef;
     private List<User> mAllusers;
+    private FirebaseAuth mAuth;
+    private String current_User_Id;
+
 
 
     Toolbar mToolbar;
@@ -40,6 +44,9 @@ public class AllUsersActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAllusers = new ArrayList<>();
+        ///
+        mAuth = FirebaseAuth.getInstance();
+        current_User_Id = mAuth.getCurrentUser().getUid();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("users");
 
@@ -49,7 +56,10 @@ public class AllUsersActivity extends AppCompatActivity {
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
 
                     User userRetrieve = postSnapshot.getValue(User.class);
-                    mAllusers.add(userRetrieve);
+                    if(!userRetrieve.getUser_id().equals(current_User_Id)){
+                        mAllusers.add(userRetrieve);
+                    }
+
 
 
                 }
