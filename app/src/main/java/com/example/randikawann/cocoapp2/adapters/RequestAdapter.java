@@ -107,7 +107,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
                 String all_friends_id = mAllRequest.get(holder.getAdapterPosition()).getFriends_id();
                 SharedPreferences sharedPreferencesAllusers = mContext.getSharedPreferences(all_friends_id, Context.MODE_PRIVATE);
                 current_user_name = sharedPreferencesAllusers.getString("user_name", DEFAULT);
-                String status = sharedPreferencesAllusers.getString("user_status", DEFAULT);
+//                String status = sharedPreferencesAllusers.getString("user_status", DEFAULT);
+                String status = mAllRequest.get(holder.getAdapterPosition()).getStatus();
 
                 tvItem_name.setText(current_user_name);
                 tvrequest_type.setText(status);

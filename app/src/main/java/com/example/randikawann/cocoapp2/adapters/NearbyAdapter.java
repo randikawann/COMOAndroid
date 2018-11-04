@@ -36,7 +36,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
     private Dialog mDialog;
     private double current_lat;
     private double current_lon;
-    private String current_User_Id;
+    private String friends_user_id;
     public FirebaseAuth mAuth;
 
     public NearbyAdapter(Context context, List<Nearby> nearbyusers){
@@ -60,10 +60,9 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
         mDialog.setContentView(R.layout.dialog_nearby);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        mAuth = FirebaseAuth.getInstance();
-        current_User_Id = mAuth.getCurrentUser().getUid();
+        friends_user_id = nearbyCurrent.getUser_id();
+        final SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(friends_user_id, Context.MODE_PRIVATE);
         //Get preference
-        SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(current_User_Id, Context.MODE_PRIVATE);
         String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
         holder.userName.setText(user_name);
         holder.userDate.setText(nearbyCurrent.getLastupdated());
