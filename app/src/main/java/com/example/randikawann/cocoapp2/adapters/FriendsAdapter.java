@@ -53,6 +53,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent messageIntent = new Intent(v.getContext(), MessageActivity.class);
                 messageIntent.putExtra("friends_id",uploadCurrent.getFriends_id());
                 mContext.startActivity(messageIntent);

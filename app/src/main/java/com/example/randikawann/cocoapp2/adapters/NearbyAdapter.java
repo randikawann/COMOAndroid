@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
@@ -21,10 +22,13 @@ import com.example.randikawann.cocoapp2.GpsTracker;
 import com.example.randikawann.cocoapp2.MapsActivity;
 import com.example.randikawann.cocoapp2.R;
 import com.example.randikawann.cocoapp2.models.Nearby;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.example.randikawann.cocoapp2.ProfileActivity.DEFAULT;
 
 public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyViewHolder>{
     private Context mContext;
@@ -32,19 +36,18 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
     private Dialog mDialog;
     private double current_lat;
     private double current_lon;
-
+    private String current_User_Id;
+    public FirebaseAuth mAuth;
 
     public NearbyAdapter(Context context, List<Nearby> nearbyusers){
         mContext = context;
         mNearbyusers = nearbyusers;
     }
     @NonNull
+
     @Override
     public NearbyViewHolder onCreateViewHolder(@NonNull ViewGroup parent , int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.nearby_list_layout , parent, false);
-
-
-
 
         return new NearbyAdapter.NearbyViewHolder(v);
     }
@@ -57,7 +60,12 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
         mDialog.setContentView(R.layout.dialog_nearby);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        holder.userName.setText(nearbyCurrent.getUser_name());
+        mAuth = FirebaseAuth.getInstance();
+        current_User_Id = mAuth.getCurrentUser().getUid();
+        //Get preference
+        SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(current_User_Id, Context.MODE_PRIVATE);
+        String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+        holder.userName.setText(user_name);
         holder.userDate.setText(nearbyCurrent.getLastupdated());
 
         //get current gps value
@@ -72,7 +80,10 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
                 TextView item_update = mDialog.findViewById(R.id.tvlastupdate);
                 Button btview_location = mDialog.findViewById(R.id.btview_location);
 
-                item_name.setText(mNearbyusers.get(holder.getAdapterPosition()).getUser_name());
+                String user_id = mNearbyusers.get(holder.getAdapterPosition()).getUser_id();
+                SharedPreferences sharedPreferencesfriends = mContext.getSharedPreferences(user_id, Context.MODE_PRIVATE);
+                String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
+                item_name.setText(user_name);
                 item_update.setText(mNearbyusers.get(holder.getAdapterPosition()).getLastupdated());
                 mDialog.show();
 
