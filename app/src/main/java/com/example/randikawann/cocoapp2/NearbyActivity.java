@@ -76,7 +76,7 @@ public class NearbyActivity extends AppCompatActivity {
         gpsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mNearbyUser.clear();
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
 
 

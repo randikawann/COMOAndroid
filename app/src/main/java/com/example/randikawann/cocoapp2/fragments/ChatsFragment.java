@@ -65,6 +65,8 @@ public class ChatsFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.fragment_chats, container, false);
+
+        Log.i("maintbfgdfs","on  create chat fragment");
         mRecyclerView = (RecyclerView) v.findViewById(R.id.chatsrecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -80,9 +82,8 @@ public class ChatsFragment extends Fragment {
         chatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mAllChat.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
                     Chat chatRetrieve = postSnapshot.getValue(Chat.class);
                     mAllChat.add(chatRetrieve);
 
@@ -101,4 +102,30 @@ public class ChatsFragment extends Fragment {
         return v;
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.i("maintbfgdfst","on  Resume chat fragment");
+//
+//        chatReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//
+//                    Chat chatRetrieve = postSnapshot.getValue(Chat.class);
+//                    mAllChat.add(chatRetrieve);
+//
+//                }
+//                chatAdapter = new ChatAdapter(getContext(), mAllChat);
+//                mRecyclerView.setAdapter(chatAdapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+//    }
 }
