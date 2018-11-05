@@ -87,9 +87,5 @@ public class RequestFragment extends Fragment {
         // Inflate the layout for this fragment
         return v;
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("maintbfgdfst","on  resume requrst fragment");
-    }
+
 }

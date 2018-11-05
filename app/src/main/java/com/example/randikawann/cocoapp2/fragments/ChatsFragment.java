@@ -65,8 +65,6 @@ public class ChatsFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.fragment_chats, container, false);
-
-        Log.i("maintbfgdfs","on  create chat fragment");
         mRecyclerView = (RecyclerView) v.findViewById(R.id.chatsrecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

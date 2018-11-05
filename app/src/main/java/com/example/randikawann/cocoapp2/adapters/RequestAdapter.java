@@ -97,6 +97,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 TextView tvItem_name = mDialog.findViewById(R.id.tvItem_name);
                 TextView tvrequest_type = mDialog.findViewById(R.id.tvrequestType);
                 Button btsend_req = mDialog.findViewById(R.id.btsend_req);
