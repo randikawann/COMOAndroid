@@ -72,11 +72,13 @@ public class ChatsFragment extends Fragment {
         mAllChat = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
-
-//        Log.i("chat", "this fragment is work");
-
-
         chatReference= FirebaseDatabase.getInstance().getReference().child("chat").child(current_User_Id);
+        try{
+
+        }catch (Exception e){
+            Log.i("intent","chatFragment : 1");
+        }
+
         chatReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,6 +97,17 @@ public class ChatsFragment extends Fragment {
 
             }
         });
+        try {
+
+        }catch(Exception e){
+
+        }
+
+        current_User_Id = mAuth.getCurrentUser().getUid();
+//        Log.i("chat", "this fragment is work");
+
+
+
 
         // Inflate the layout for this fragment
         return v;
