@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -44,6 +46,12 @@ public class EditProfileActivity extends AppCompatActivity {
     private Button btSubmit;
     private CircleImageView imgProfile;
 
+    //input layouts
+    private TextInputLayout textInputUserName;
+    private TextInputLayout textInputAge;
+    private TextInputLayout textInputStatus;
+
+
     private DatabaseReference userReference;
     private DatabaseReference getUserReference;
     private FirebaseAuth mAuth;
@@ -78,6 +86,13 @@ public class EditProfileActivity extends AppCompatActivity {
         imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
 //        imgProfile = (ImageView) findViewById(R.id.imgProfile);
 
+        //input layouts
+        textInputUserName = findViewById(R.id.textInputUserName);
+        textInputAge = findViewById(R.id.textInputAge);
+        textInputStatus = findViewById(R.id.textInputStatus);
+
+
+
         //Add database Reference to user
         mAuth = FirebaseAuth.getInstance();
         current_User_Id = mAuth.getCurrentUser().getUid();
@@ -87,6 +102,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!validateUserName() | !validateAge() | !validateStatus()){}
                 addUser();
             }
         });
@@ -197,28 +213,70 @@ public class EditProfileActivity extends AppCompatActivity {
         userStatus = etStatus.getText().toString();
         userGender = spinnerGender.getSelectedItem().toString();
 
-        if(!TextUtils.isEmpty(userName)){
-            if(!TextUtils.isEmpty(userStatus)){
-                userReference.child("user_id").setValue(current_User_Id);
-                userReference.child("user_name").setValue(userName);
-                userReference.child("user_age").setValue(userAge);
+
+//        validation
+
+        if(!validateUserName() | !validateAge() | !validateStatus()){
+            userReference.child("user_id").setValue(current_User_Id);
+            userReference.child("user_name").setValue(userName);
+            userReference.child("user_age").setValue(userAge);
 //                userReference.child("user_img").setValue(downloadUrl);
-                userReference.child("user_thumbImg").setValue("user_thumbImg");
-                userReference.child("user_status").setValue(userStatus);
-                userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(EditProfileActivity.this, "Added data successfuly", Toast.LENGTH_SHORT).show();
-                            Intent mainIntent = new Intent(EditProfileActivity.this, MainActivity.class);
-                            startActivity(mainIntent);
-                        }else{
-                            Toast.makeText(EditProfileActivity.this, "User data not added", Toast.LENGTH_SHORT).show();
-                        }
+            userReference.child("user_thumbImg").setValue("user_thumbImg");
+            userReference.child("user_status").setValue(userStatus);
+            userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()) {
+                        Toast.makeText(EditProfileActivity.this, "Added data successfuly", Toast.LENGTH_SHORT).show();
+                        Intent mainIntent = new Intent(EditProfileActivity.this, MainActivity.class);
+                        startActivity(mainIntent);
+                    }else{
+                        Toast.makeText(EditProfileActivity.this, "User data not added", Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
+                }
+            });
         }
 
+
+
+
+    }
+
+
+    private boolean validateUserName(){
+        String userNameInput = textInputUserName.getEditText().getText().toString().trim();
+        if(userNameInput.isEmpty()){
+            textInputUserName.setError("Field can't be empty");
+            return false;
+        }else if(userNameInput.length()<10){
+            textInputUserName.setError("Username too long");
+            return false;
+        }else{
+            textInputUserName.setError(null);
+            return true;
+        }
+    }
+    private boolean validateAge(){
+        String ageInput = textInputAge.getEditText().getText().toString().trim();
+        if(ageInput.isEmpty()){
+            textInputUserName.setError("Field can't be empty");
+            return false;
+        }else if(ageInput.length()<2){
+            textInputUserName.setError("Age too long");
+            return false;
+        }else{
+            textInputUserName.setError(null);
+            return true;
+        }
+    }
+    private boolean validateStatus(){
+        String statusInput = textInputStatus.getEditText().getText().toString().trim();
+        if(statusInput.isEmpty()){
+            textInputUserName.setError("Field can't be empty");
+            return false;
+        }else{
+            textInputUserName.setError(null);
+            return true;
+        }
     }
 }
