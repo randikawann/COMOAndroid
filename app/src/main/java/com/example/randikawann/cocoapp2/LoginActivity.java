@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private Dialog mDialog;
 
+    private TextInputLayout textInputphoneNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 
         btVerify = findViewById(R.id.btVerify);
         etPhoneNum = findViewById(R.id.etphoneNum);
+
+        textInputphoneNum = findViewById(R.id.textInputphoneNum);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -59,6 +64,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 String phoneNum = etPhoneNum.getText().toString();
 
+                //validate
+                if(!validatePhoneNum()){
+                    return;
+                }
+
                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                             phoneNum,        // Phone number to verify
                             60,                 // Timeout duration
@@ -72,10 +82,23 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         String verificationCode = etMobile_code.getText().toString();
 
+                        //validate code
+                        if (verificationCode.isEmpty()) {
+                            Toast.makeText(LoginActivity.this,"Field can't be empty",Toast.LENGTH_LONG).show();
+                            return;
+                        }else if(verificationCode.equals(mVerificationId)){
+                            Toast.makeText(LoginActivity.this,"Verification code doens't match",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
+
                         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, verificationCode);
+                        Toast.makeText(LoginActivity.this,"Verification code matched",Toast.LENGTH_LONG).show();
+                        mDialog.dismiss();
                         signInWithPhoneAuthCredential(credential);
 
-                        mDialog.dismiss();
+
                     }
                 });
 
@@ -86,6 +109,8 @@ public class LoginActivity extends AppCompatActivity {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                mDialog.dismiss();
+                Toast.makeText(LoginActivity.this,"Automatically validate code",Toast.LENGTH_LONG).show();
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
@@ -108,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
+                Toast.makeText(LoginActivity.this,"Verification code sent",Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -136,6 +162,39 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+
+
+
+    private boolean validatePhoneNum() {
+        String userPhoneNum = textInputphoneNum.getEditText().getText().toString().trim();
+        if (userPhoneNum.isEmpty()) {
+            textInputphoneNum.setError("Field can't be empty");
+            return false;
+        } else if(isLeadingDigit(userPhoneNum)){
+            textInputphoneNum.setError("Start with '+94'");
+            return false;
+        }else if(userPhoneNum.matches("[a-zA-Z_]+")){
+            textInputphoneNum.setError("Age Must be Number");
+            return false;
+        }else if (userPhoneNum.length() > 12) {
+            textInputphoneNum.setError("Mobile Number too long");
+            return false;
+        } else {
+            textInputphoneNum.setError(null);
+            return true;
+        }
+    }
+
+    public boolean isLeadingDigit(final String value){
+        final char c = value.charAt(0);
+        if(c=='+'){
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

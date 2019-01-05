@@ -241,6 +241,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(EditProfileActivity.this, "Added data successfuly", Toast.LENGTH_SHORT).show();
                     Intent mainIntent = new Intent(EditProfileActivity.this, MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(mainIntent);
                 }else{
                     Toast.makeText(EditProfileActivity.this, "User data not added", Toast.LENGTH_SHORT).show();
