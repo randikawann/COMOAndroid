@@ -72,6 +72,7 @@ public class EditProfileActivity extends AppCompatActivity {
         //add change to branch 02soveimgretrieve
         //merge it to 02editprofile
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_edit_profile);
 
         //Toolbar
