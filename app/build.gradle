@@ -22,6 +22,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
+//    text filed validation
+    implementation 'com.android.support:design:27.1.1'
+
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     //firebase dependencies
@@ -38,7 +41,7 @@ dependencies {
     //image cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     //picasso
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 //    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:design:27.1.1'
