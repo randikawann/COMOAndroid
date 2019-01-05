@@ -272,14 +272,13 @@ public class EditProfileActivity extends AppCompatActivity {
         if(ageInput.isEmpty()){
             textInputAge.setError("Field can't be empty");
             return false;
-        }else if(ageInput.length()>2){
-            textInputAge.setError("Age too long");
-            return false;
         }else if(ageInput.matches("[a-zA-Z_]+")){
             textInputAge.setError("Age Must be Number");
             return false;
-        }
-        else{
+        }else if(ageInput.length()>2){
+            textInputAge.setError("Age too long");
+            return false;
+        }else{
             textInputAge.setError(null);
             return true;
         }
