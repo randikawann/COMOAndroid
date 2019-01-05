@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -120,13 +121,19 @@ public class EditProfileActivity extends AppCompatActivity {
 //                    etStatus.setText(userStatus);
 //                    spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
                     try {
-                        Glide.with(EditProfileActivity.this).load(user.getUser_image()).into(imgProfile);
+//                        Glide.with(EditProfileActivity.this).load(user.getUser_image()).into(imgProfile);
                     }catch(Exception e){
                         Log.i("editProfile","exception retrieve image");
                     }
                     //retreve image with picasso
 //                    Picasso.get().load(userimage).into(imgProfile);
-//                    imgProfile.setImageURI(Uri.parse(userimage));
+                    try{
+//                        imgProfile.setImageURI(Uri.parse(userimage));
+                    }
+                    catch(Exception e){
+                        Log.i("editProfile" , e.toString());
+                    }
+
 
                 }
             }
@@ -157,15 +164,16 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
           if(requestCode==Gallery_pick && resultCode==RESULT_OK && data!=null && data.getData() !=null){
-//            Uri imageuri = data.getData();
-//            imgProfile.setImageURI(imageuri);
-//            Picasso.get().load(imageuri).into(imgProfile);
+            Uri imageuri = data.getData();
+            imgProfile.setImageURI(imageuri);
+
 
             // start picker to get image for cropping and then use the image in cropping activity
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1,1)
                     .start(this);
+              Picasso.get().load(imageuri).into(imgProfile);
         }
         //get crop image result
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -177,13 +185,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 final StorageReference filePath;
 
                 filePath = storeProfileImageStorageRef.child(user_id+".jpeg");
-
+                Log.i("editProfile" , "file path is "+filePath.toString());
 
                 filePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 //                        String url = taskSnapshot.getStorage().getPath();
                         String url = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                        Log.i("editProfile" , "Url is "+url);
 
                         if(url!=null) {
                             Log.i("editProfile" , url);
@@ -208,34 +217,36 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void addUser(){
 
+
+
+//        validation
+        if(!validateUserName() | !validateAge() | !validateStatus()){
+            return;
+        }
         userName = etUserName.getText().toString().trim();
         userAge = etAge.getText().toString();
         userStatus = etStatus.getText().toString();
         userGender = spinnerGender.getSelectedItem().toString();
 
+        userReference.child("user_id").setValue(current_User_Id);
+        userReference.child("user_name").setValue(userName);
+        userReference.child("user_age").setValue(userAge);
 
-//        validation
-
-        if(!validateUserName() | !validateAge() | !validateStatus()){
-            userReference.child("user_id").setValue(current_User_Id);
-            userReference.child("user_name").setValue(userName);
-            userReference.child("user_age").setValue(userAge);
 //                userReference.child("user_img").setValue(downloadUrl);
-            userReference.child("user_thumbImg").setValue("user_thumbImg");
-            userReference.child("user_status").setValue(userStatus);
-            userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()) {
-                        Toast.makeText(EditProfileActivity.this, "Added data successfuly", Toast.LENGTH_SHORT).show();
-                        Intent mainIntent = new Intent(EditProfileActivity.this, MainActivity.class);
-                        startActivity(mainIntent);
-                    }else{
-                        Toast.makeText(EditProfileActivity.this, "User data not added", Toast.LENGTH_SHORT).show();
-                    }
+//        userReference.child("user_thumbImg").setValue("user_thumbImg");
+        userReference.child("user_status").setValue(userStatus);
+        userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Toast.makeText(EditProfileActivity.this, "Added data successfuly", Toast.LENGTH_SHORT).show();
+                    Intent mainIntent = new Intent(EditProfileActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
+                }else{
+                    Toast.makeText(EditProfileActivity.this, "User data not added", Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            }
+        });
 
 
 
@@ -248,7 +259,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if(userNameInput.isEmpty()){
             textInputUserName.setError("Field can't be empty");
             return false;
-        }else if(userNameInput.length()<10){
+        }else if(userNameInput.length()>10){
             textInputUserName.setError("Username too long");
             return false;
         }else{
@@ -259,23 +270,27 @@ public class EditProfileActivity extends AppCompatActivity {
     private boolean validateAge(){
         String ageInput = textInputAge.getEditText().getText().toString().trim();
         if(ageInput.isEmpty()){
-            textInputUserName.setError("Field can't be empty");
+            textInputAge.setError("Field can't be empty");
             return false;
-        }else if(ageInput.length()<2){
-            textInputUserName.setError("Age too long");
+        }else if(ageInput.length()>2){
+            textInputAge.setError("Age too long");
             return false;
-        }else{
-            textInputUserName.setError(null);
+        }else if(ageInput.matches("[a-zA-Z_]+")){
+            textInputAge.setError("Age Must be Number");
+            return false;
+        }
+        else{
+            textInputAge.setError(null);
             return true;
         }
     }
     private boolean validateStatus(){
         String statusInput = textInputStatus.getEditText().getText().toString().trim();
         if(statusInput.isEmpty()){
-            textInputUserName.setError("Field can't be empty");
+            textInputStatus.setError("Field can't be empty");
             return false;
         }else{
-            textInputUserName.setError(null);
+            textInputStatus.setError(null);
             return true;
         }
     }

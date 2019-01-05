@@ -29,9 +29,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -42,8 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvAge;
     private Button btsend_req;
     private Button btdecline_req;
-//    private CircleImageView imgProfile;
-    private de.hdodenhof.circleimageview.CircleImageView imgProfile;
+    private CircleImageView profileimg;
+
+//    private de.hdodenhof.circleimageview.CircleImageView profileimg;
     private String user_id;
     private String current_User_Id;
     private String userName;
@@ -74,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tvAge);
         btsend_req = (Button) findViewById(R.id.btsend_req);
         btdecline_req = (Button) findViewById(R.id.btdecline_req);
-        imgProfile = findViewById(R.id.imgProfile);
+        profileimg = findViewById(R.id.profileimg);
         final ImageView imageView = findViewById(R.id.imageView);
 
         mAuth = FirebaseAuth.getInstance();
@@ -122,7 +127,7 @@ public class ProfileActivity extends AppCompatActivity {
         userReference = FirebaseDatabase.getInstance().getReference().child("users").child(user_id);
         requestReference = FirebaseDatabase.getInstance().getReference().child("friends_request");
         friendsReference = FirebaseDatabase.getInstance().getReference().child("friends");
-//        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
 //        button actions
 
@@ -137,6 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 //        get shared preferences
+        /*
         SharedPreferences sharedPreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
         String user_img = sharedPreferences.getString("user_img", DEFAULT);
 
@@ -146,8 +152,10 @@ public class ProfileActivity extends AppCompatActivity {
 //                    .error(R.drawable.common_google_signin_btn_icon_dark)
 //                    .into(imgProfile);
 //            Picasso.with(ProfileActivity.this).load(user_img).into(imgProfile);
-//                        Glide.with(ProfileActivity.this).load(user_img).into(imgProfile);
+//            Picasso.get().load(userimage).into(profileimg);
+//                        Glide.with(ProfileActivity.this).load(user_img).into(profileimg);
         }
+*/
 
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -162,6 +170,13 @@ public class ProfileActivity extends AppCompatActivity {
                     tvAge.setText(user.getUser_age());
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
+
+//                    Log.i("editProfilee" , "Image file path is "+userimage);
+//                    Picasso.get().load(userimage).into(profileimg);
+
+
+
+
 
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
                         @Override
