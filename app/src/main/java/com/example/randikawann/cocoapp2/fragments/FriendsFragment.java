@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class FriendsFragment extends Fragment {
 
 
         v = inflater.inflate(R.layout.fragment_friends,container,false);
+        Log.i("maintbfgdfs","on  create friends fragment");
         mRecyclerView = v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -52,7 +54,7 @@ public class FriendsFragment extends Fragment {
         friendsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                mAllFriends.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                     Friends friendsRetrieve = postSnapshot.getValue(Friends.class);
@@ -76,5 +78,6 @@ public class FriendsFragment extends Fragment {
         // Inflate the layout for this fragment
         return v;
     }
+
 
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatViewHolder holder , int position) {
+    public void onBindViewHolder(@NonNull ChatViewHolder holder , final int position) {
         final Chat uploadCurrent = mAllChat.get(position);
 
         friends_user_id = uploadCurrent.getFriends_id();
@@ -51,6 +52,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String user_name = sharedPreferencesfriends.getString("user_name", DEFAULT);
         holder.usermessage.setText(uploadCurrent.getMessage());
         holder.userName.setText(user_name);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent messageIntent = new Intent(v.getContext(), MessageActivity.class);
+                messageIntent.putExtra("friends_id",uploadCurrent.getFriends_id());
+                mContext.startActivity(messageIntent);
+
+            }
+        });
 
     }
 

@@ -124,7 +124,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
 
         }
     }
-    private void currentgps(){
+    public void currentgps(){
         ActivityCompat.requestPermissions((Activity) mContext ,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},123);
         GpsTracker gpsTracker = new GpsTracker(mContext.getApplicationContext());
         Location location = gpsTracker.getLocation();

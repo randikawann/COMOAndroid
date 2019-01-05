@@ -53,6 +53,7 @@ public class AllUsersActivity extends AppCompatActivity {
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mAllusers.clear();
                 for(DataSnapshot postSnapshot :dataSnapshot.getChildren()){
 
                     User userRetrieve = postSnapshot.getValue(User.class);

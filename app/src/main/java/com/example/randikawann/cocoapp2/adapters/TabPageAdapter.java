@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.example.randikawann.cocoapp2.MainActivity;
 import com.example.randikawann.cocoapp2.fragments.ChatsFragment;
@@ -65,5 +66,4 @@ public class TabPageAdapter extends FragmentPagerAdapter{
                 return null;
         }
     }
-
 }

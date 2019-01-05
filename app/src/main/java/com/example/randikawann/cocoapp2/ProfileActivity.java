@@ -136,6 +136,19 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
+//        get shared preferences
+        SharedPreferences sharedPreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
+        String user_img = sharedPreferences.getString("user_img", DEFAULT);
+
+        if(user_img != null){
+//            Picasso.with(ProfileActivity.this)
+//                    .load(user_img)
+//                    .error(R.drawable.common_google_signin_btn_icon_dark)
+//                    .into(imgProfile);
+//            Picasso.with(ProfileActivity.this).load(user_img).into(imgProfile);
+//                        Glide.with(ProfileActivity.this).load(user_img).into(imgProfile);
+        }
+
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -149,19 +162,6 @@ public class ProfileActivity extends AppCompatActivity {
                     tvAge.setText(user.getUser_age());
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
-                    try {
-
-//                        Glide.with(ProfileActivity.this).load(userimage).into(imgProfile);
-//                        Picasso.with(ProfileActivity.this).load("com.google.android.gms.tasks.zzu@4f28266").into(imgProfile);
-
-                    }catch(Exception e){
-                        Log.d("profile","......................................................"+e.toString());
-                    }
-
-                    //sample for shared prefe
-                    SharedPreferences sharedPreferences = getSharedPreferences(current_User_Id, Context.MODE_PRIVATE);
-//                    String user_name = sharedPreferences.getString("user_name", DEFAULT);
-//                    Log.i("maintbfgdf", "User Name in profile "+user_name);
 
                     requestReference.child(current_User_Id).addValueEventListener(new ValueEventListener() {
                         @Override

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class RequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_request,container,false);
+        Log.i("maintbfgdfs","on  create Request fragment");
         mRecyclerView = (RecyclerView) v.findViewById(R.id.friendsrecycler);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -58,7 +60,7 @@ public class RequestFragment extends Fragment {
             friendsReference = FirebaseDatabase.getInstance().getReference("friends_request").child(current_User_Id);
             friendsReference.addValueEventListener(new ValueEventListener() {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                    mAllrequest.clear();
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
                         Request requestsRetrieve = postSnapshot.getValue(Request.class);
