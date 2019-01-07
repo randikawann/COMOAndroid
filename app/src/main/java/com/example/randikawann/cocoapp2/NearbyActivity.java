@@ -52,10 +52,11 @@ public class NearbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nearby);
 
 
-//        mainToolBar = findViewById(R.id.main_page_toolbar);
-//        setSupportActionBar(mainToolBar);
-////        getSupportActionBar().setTitle("Near Users");
-//        getSupportActionBar().setSubtitle("Near Users");
+        //Toolbar
+        mToolbar = findViewById(R.id.nearby_app_bar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Near Users");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         mRecyclerView = findViewById(R.id.mRecyclerView);

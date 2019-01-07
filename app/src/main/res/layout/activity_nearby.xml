@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NearbyActivity">
-    <include
-        layout="@layout/app_bar_layouts"
-        android:id="@+id/main_page_toolbar"/>
+
+    <include layout="@layout/app_bar_layouts"
+        android:id="@+id/nearby_app_bar">
+
+    </include>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="509dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp" />
+        android:layout_marginTop="50dp" />
 </RelativeLayout>

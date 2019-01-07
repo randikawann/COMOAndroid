@@ -39,6 +39,12 @@ public class AllUsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_users);
 
+        //Toolbar
+        mToolbar = findViewById(R.id.all_users_app_bar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("All Users");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
