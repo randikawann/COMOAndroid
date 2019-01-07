@@ -45,7 +45,7 @@ public class ChatsFragment extends Fragment {
     private List<Chat> mAllChat;
     private RecyclerView mRecyclerView;
     private DatabaseReference chatReference;
-    private String current_User_Id;
+    private String current_User_Id = null;
     private FirebaseAuth mAuth;
 
     private ChatAdapter chatAdapter;
@@ -71,39 +71,42 @@ public class ChatsFragment extends Fragment {
 
         mAllChat = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
-        current_User_Id = mAuth.getCurrentUser().getUid();
-        chatReference= FirebaseDatabase.getInstance().getReference().child("chat").child(current_User_Id);
+
+
         try{
-
+            current_User_Id = mAuth.getCurrentUser().getUid();
         }catch (Exception e){
-            Log.i("intent","chatFragment : 1");
+            Log.i("efiusndc","chatFragment : 1");
         }
+        if(current_User_Id == null){
+            Log.i("efiusndc","current user null");
+        }else {
+            chatReference = FirebaseDatabase.getInstance().getReference().child("chat").child(current_User_Id);
 
-        chatReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mAllChat.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Chat chatRetrieve = postSnapshot.getValue(Chat.class);
-                    mAllChat.add(chatRetrieve);
+            chatReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mAllChat.clear();
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        Chat chatRetrieve = postSnapshot.getValue(Chat.class);
+                        mAllChat.add(chatRetrieve);
+
+                    }
+                    chatAdapter = new ChatAdapter(getContext(), mAllChat);
+                    mRecyclerView.setAdapter(chatAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-                chatAdapter = new ChatAdapter(getContext(), mAllChat);
-                mRecyclerView.setAdapter(chatAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        try {
-
-        }catch(Exception e){
+            });
 
         }
 
-        current_User_Id = mAuth.getCurrentUser().getUid();
+
+
+
 //        Log.i("chat", "this fragment is work");
 
 

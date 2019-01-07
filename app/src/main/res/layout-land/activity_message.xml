@@ -51,7 +51,7 @@
 
         <EditText
             android:id="@+id/etMessagecontent"
-            android:layout_width="333dp"
+            android:layout_width="550dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
