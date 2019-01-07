@@ -67,6 +67,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private String current_User_Id;
     private final static int Gallery_pick = 1;
 
+    FirebaseStorage storage;
+    StorageReference storageReference;
+    FirebaseDatabase db;
+    DatabaseReference foodList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //add change to branch 02soveimgretrieve
@@ -92,6 +97,8 @@ public class EditProfileActivity extends AppCompatActivity {
         textInputUserName = findViewById(R.id.textInputUserName);
         textInputAge = findViewById(R.id.textInputAge);
         textInputStatus = findViewById(R.id.textInputStatus);
+
+        //firebase storage new
 
 
 
