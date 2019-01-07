@@ -12,20 +12,20 @@ public class FlashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_flash);
 
 
-//        Thread thread = new Thread(){
-//
-//            public void run(){
-//                try{
-//                    sleep(3000);
-//                }catch(Exception e){
-//
-//                }finally {
-//                    Intent mainIntent = new Intent(FlashActivity.this,MainActivity.class);
-//                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                    startActivity(mainIntent);
-//                }
-//            }
-//        };
-//        thread.start();
+        Thread thread = new Thread(){
+
+            public void run(){
+                try{
+                    sleep(3000);
+                }catch(Exception e){
+
+                }finally {
+                    Intent mainIntent = new Intent(FlashActivity.this,MainActivity.class);
+                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(mainIntent);
+                }
+            }
+        };
+        thread.start();
     }
 }
