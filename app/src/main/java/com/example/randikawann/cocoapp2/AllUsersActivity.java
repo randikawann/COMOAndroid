@@ -82,22 +82,5 @@ public class AllUsersActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-//
-//        //Toolbar
-//        mToolbar = findViewById(R.id.all_users_app_bar);
-//        setSupportActionBar(mToolbar);
-//        getSupportActionBar().setTitle("All Users");
-////        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
     }
 }

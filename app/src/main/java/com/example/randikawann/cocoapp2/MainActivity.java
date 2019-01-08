@@ -124,11 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onShake(int count) {
-                /*
-                 * The following method, "handleShakeEvent(count):" is a stub //
-                 * method you would use to setup whatever you want done once the
-                 * device has been shook.
-                 */
+
                 handleShakeEvent(count);
 
             }
@@ -153,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("user_status", userRetrieve.getUser_status());
                     editor.putString("user_thumbImg", userRetrieve.getUser_thumbImg());
                     editor.putString("device_token", userRetrieve.getDevice_token());
-//
+
 //                    editor.commit();
                     editor.apply();
 

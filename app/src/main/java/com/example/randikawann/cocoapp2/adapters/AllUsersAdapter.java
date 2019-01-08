@@ -52,18 +52,8 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.ImageV
                 Intent profileIntent = new Intent(v.getContext(),ProfileActivity.class);
                 profileIntent.putExtra("user_id",selected_user_id);
                 mContext.startActivity(profileIntent);
-//                Log.d("MyActivity", efszdx);
-//                int pos = getAdapterPosition();
-//
-//                // check if item still exists
-//                if(pos != RecyclerView.NO_POSITION){
-//                    RvDataItem clickedDataItem = dataItems.get(pos);
-//                    Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getName(), Toast.LENGTH_SHORT).show();
-//                }
             }
         });
-//        holder.userImage.setImageURI(R.drawable.defaultuser);
-//        holder.userImage.setImageResource(R.drawable.defaultuser);
 
     }
 
@@ -83,7 +73,6 @@ public class AllUsersAdapter extends RecyclerView.Adapter<AllUsersAdapter.ImageV
 
             userName = itemView.findViewById(R.id.user_name_layout);
             userStatus = itemView.findViewById(R.id.user_status_layout);
-//            userImage = itemView.findViewById(defaultuser);
 
 
         }

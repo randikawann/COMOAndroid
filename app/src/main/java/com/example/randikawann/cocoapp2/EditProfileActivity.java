@@ -69,8 +69,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //add change to branch 02soveimgretrieve
-        //merge it to 02editprofile
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_edit_profile);
@@ -79,14 +77,13 @@ public class EditProfileActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.edit_activity_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Edit Profile");
-        //
+
         etUserName = (EditText) findViewById(R.id.etUserName);
         etAge = (EditText) findViewById(R.id.etAge);
         etStatus = (EditText) findViewById(R.id.etStatus);
         spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
         btSubmit = (Button) findViewById(R.id.btSubmit);
         imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
-//        imgProfile = (ImageView) findViewById(R.id.imgProfile);
 
         //input layouts
         textInputUserName = findViewById(R.id.textInputUserName);
@@ -118,23 +115,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     etAge.setText(user.getUser_age());
                     etStatus.setText(user.getUser_status());
                     spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(user.getUser_gender()));
-//                    etAge.setText(userAge);
-//                    etStatus.setText(userStatus);
-//                    spinnerGender.setSelection(((ArrayAdapter<String>) spinnerGender.getAdapter()).getPosition(userGender));
-                    try {
-//                        Glide.with(EditProfileActivity.this).load(user.getUser_image()).into(imgProfile);
-                    }catch(Exception e){
-                        Log.i("editProfile","exception retrieve image");
-                    }
-                    //retreve image with picasso
-//                    Picasso.get().load(userimage).into(imgProfile);
-                    try{
-//                        imgProfile.setImageURI(Uri.parse(userimage));
-                    }
-                    catch(Exception e){
-                        Log.i("editProfile" , e.toString());
-                    }
-
 
                 }
             }
@@ -233,8 +213,6 @@ public class EditProfileActivity extends AppCompatActivity {
         userReference.child("user_name").setValue(userName);
         userReference.child("user_age").setValue(userAge);
 
-//                userReference.child("user_img").setValue(downloadUrl);
-//        userReference.child("user_thumbImg").setValue("user_thumbImg");
         userReference.child("user_status").setValue(userStatus);
         userReference.child("user_gender").setValue(userGender).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

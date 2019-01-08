@@ -70,8 +70,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.NearbyView
         //get current gps value
         currentgps();
 
-//        Toast.makeText(mContext,current_lat + "&&" + current_lon,Toast.LENGTH_SHORT ).show();
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

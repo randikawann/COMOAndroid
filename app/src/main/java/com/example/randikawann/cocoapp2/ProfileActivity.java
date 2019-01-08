@@ -48,7 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btdecline_req;
     private CircleImageView profileimg;
 
-//    private de.hdodenhof.circleimageview.CircleImageView profileimg;
     private String user_id;
     private String current_User_Id;
     private String userName;
@@ -140,23 +139,6 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-//        get shared preferences
-        /*
-        SharedPreferences sharedPreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
-        String user_img = sharedPreferences.getString("user_img", DEFAULT);
-
-        if(user_img != null){
-//            Picasso.with(ProfileActivity.this)
-//                    .load(user_img)
-//                    .error(R.drawable.common_google_signin_btn_icon_dark)
-//                    .into(imgProfile);
-//            Picasso.with(ProfileActivity.this).load(user_img).into(imgProfile);
-//            Picasso.get().load(userimage).into(profileimg);
-//                        Glide.with(ProfileActivity.this).load(user_img).into(profileimg);
-        }
-*/
-
         userReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -171,8 +153,6 @@ public class ProfileActivity extends AppCompatActivity {
                     tvStatus.setText(user.getUser_status());
                     tvGender.setText(user.getUser_gender());
 
-//                    Log.i("editProfilee" , "Image file path is "+userimage);
-//                    Picasso.get().load(userimage).into(profileimg);
 
 
 
@@ -218,18 +198,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
 
-//                    String url="https://firebasestorage.googleapis.com/v0/b/cocoapp2-4a7f4.appspot.com/o/profile_img%2FGrKVpQ6NtNMx7Wua7YOLaC2YvLy2.jpeg?alt=media&token=083f0697-8d54-4617-8e4e-132ef3d58f5e";
-
-//                    Glide.with(getApplicationContext()).load(url).into(imgProfile);
-//                    GlideApp.with(this).load("http://goo.gl/gEgYUd").into(userimage);
-//                    GlideApp.with(this /* context */)
-//                            .load(storageReference)
-//                            .into(imageView);
-
-                    //retreve image with picasso
-//                    Picasso.get().load(userimage).into(imgProfile);
-//                    imgProfile.setImageURI(Uri.parse(userimage));
-//                    Picasso.with(ProfileActivity.this).load(userimage).into(imgProfile);
                 }
             }
 

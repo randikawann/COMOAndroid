@@ -40,8 +40,6 @@ import java.util.Set;
  * A simple {@link Fragment} subclass.
  */
 public class ChatsFragment extends Fragment {
-    // difficult to solve in this branch....
-    //because of turn into another branch 19..
     private List<Chat> mAllChat;
     private RecyclerView mRecyclerView;
     private DatabaseReference chatReference;
@@ -115,31 +113,4 @@ public class ChatsFragment extends Fragment {
         // Inflate the layout for this fragment
         return v;
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Log.i("maintbfgdfst","on  Resume chat fragment");
-//
-//        chatReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//
-//                    Chat chatRetrieve = postSnapshot.getValue(Chat.class);
-//                    mAllChat.add(chatRetrieve);
-//
-//                }
-//                chatAdapter = new ChatAdapter(getContext(), mAllChat);
-//                mRecyclerView.setAdapter(chatAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-//    }
 }

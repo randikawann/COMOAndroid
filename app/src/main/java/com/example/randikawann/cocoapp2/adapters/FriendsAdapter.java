@@ -174,13 +174,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
 
                     editor.apply();
 
-                    //user Id = gps rggbkjdf
-                    Log.i("maintbfgdfst","data aded to value :"+"gps "+userID);
-//                    Log.i("main","userNmae"+userRetrieve.getUser_name());
-
-
-
-
                 }
             }
 

@@ -134,8 +134,6 @@ public class NearbyActivity extends AppCompatActivity {
         if(location !=null){
             current_lat = location.getLatitude();
             current_lon = location.getLongitude();
-//            Toast.makeText(NearbyActivity.this,"current value with near"+current_lat+" "+current_lon,Toast.LENGTH_SHORT).show();
-//            Toast.makeText(NearbyActivity.this,"Lat is " + current_lat,Toast.LENGTH_SHORT).show();
             gpsReference.child(current_User_Id).child("latitute").setValue(current_lat);
             gpsReference.child(current_User_Id).child("longitude").setValue(current_lon);
             gpsReference.child(current_User_Id).child("lastupdated").setValue(dateString);
