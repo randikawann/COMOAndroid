@@ -22,11 +22,7 @@
             android:parentActivityName="com.ran.randikawann.cocoapp2.MainActivity"/>
         <activity android:name="com.ran.randikawann.cocoapp2.EditProfileActivity" />
         <activity android:name="com.ran.randikawann.cocoapp2.FlashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
