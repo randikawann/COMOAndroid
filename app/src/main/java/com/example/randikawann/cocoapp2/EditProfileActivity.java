@@ -35,7 +35,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
-
     private EditText etUserName;
     private EditText etAge;
     private EditText etStatus;
