@@ -37,6 +37,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import com.squareup.picasso.Picasso;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -58,6 +59,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private StorageReference storeProfileImageStorageRef;
 
+
     private String userName;
     private String userAge;
     private String userGender;
@@ -66,6 +68,13 @@ public class EditProfileActivity extends AppCompatActivity {
     private String downloadUrl;
     private String current_User_Id;
     private final static int Gallery_pick = 1;
+
+    //firebase with image retrieving
+    FirebaseDatabase db;
+    DatabaseReference foodList;
+
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +102,9 @@ public class EditProfileActivity extends AppCompatActivity {
         textInputAge = findViewById(R.id.textInputAge);
         textInputStatus = findViewById(R.id.textInputStatus);
 
+
+//        firebase retrieving
+        db=FirebaseDatabase.getInstance();
 
 
         //Add database Reference to user
